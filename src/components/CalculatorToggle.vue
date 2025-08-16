@@ -4,8 +4,8 @@
       <div class="calc-toggle-icon">
         <svg
           viewBox="0 0 24 24"
-          width="16"
-          height="16"
+          width="24"
+          height="24"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
@@ -14,7 +14,6 @@
           />
         </svg>
       </div>
-      <p class="calc-toggle-text">{{ t('calculator.title') }}</p>
     </div>
   </button>
 </template>
@@ -51,6 +50,15 @@ const toggleCalculator = () => {
   overflow: hidden;
 }
 
+/* 窄屏时计算器按钮上浮，避免被Tabbar遮挡 */
+@media (max-width: 768px) {
+  .calc-toggle-btn {
+    bottom: 100px; /* 上浮到Tabbar上方 */
+    z-index: 1001; /* 确保在Tabbar之上 */
+    right: 15px; /* 稍微调整右边距 */
+  }
+}
+
 .calc-toggle-btn::before {
   content: "";
   position: absolute;
@@ -81,12 +89,12 @@ const toggleCalculator = () => {
 
 .calc-toggle-content {
   position: relative;
-  display: grid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 6px;
   width: 100%;
   height: 100%;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr;
   border-radius: 12px;
   transition: 0.3s ease-in-out;
   z-index: 2;
@@ -95,10 +103,10 @@ const toggleCalculator = () => {
 .calc-toggle-icon {
   position: relative;
   display: flex;
-  align-self: center;
-  justify-self: center;
-  width: 16px;
-  height: 16px;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
   transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   z-index: 2;
 }
@@ -118,29 +126,10 @@ const toggleCalculator = () => {
 }
 
 .calc-toggle-icon svg {
-  width: 16px;
-  height: 16px;
+  width: 24px;
+  height: 24px;
   color: #ffffff;
 }
 
-.calc-toggle-text {
-  position: relative;
-  margin: 0;
-  align-self: center;
-  text-align: center;
-  font-size: 10px;
-  color: #ffffff;
-  transition: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  z-index: 2;
-  opacity: 0;
-  transform: translateY(10px);
-}
 
-.calc-toggle-btn:hover .calc-toggle-text {
-  opacity: 1;
-  transform: translateY(0);
-}
 </style>

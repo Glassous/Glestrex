@@ -24,6 +24,10 @@ export default {
     noDescription: 'No Description',
     reset: 'Reset',
     viewAll: 'View All',
+    clear: 'Clear',
+    to: 'to',
+    generatedAt: 'Generated at',
+    totalRecords: 'Total records',
     messages: {
       transactionSaved: 'Transaction saved successfully!',
       transactionUpdated: 'Transaction updated successfully!',
@@ -80,6 +84,17 @@ export default {
     account: 'Account',
     targetAccount: 'Target Account',
     date: 'Date',
+    records: 'records',
+    noTransactions: 'No transactions yet',
+    filters: {
+      dateRange: 'Date Range',
+      startDate: 'Start Date',
+      endDate: 'End Date',
+      category: 'Category Filter',
+      allCategories: 'All Categories',
+      type: 'Type Filter',
+      allTypes: 'All Types'
+    },
     type: {
       title: 'Transaction Type',
       income: 'Income',
@@ -98,7 +113,6 @@ export default {
       selectDate: 'Select Date'
     },
     recent: 'Recent Transactions',
-    noTransactions: 'No transactions yet',
     edit: 'Edit',
     delete: 'Delete',
     messages: {

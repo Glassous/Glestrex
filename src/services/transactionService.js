@@ -364,9 +364,9 @@ class TransactionService {
   }
 
   // 根据分类获取交易记录
-  async getTransactionsByCategory(category) {
+  async getTransactionsByCategory(categoryId) {
     const allTransactions = await this.getAllTransactions()
-    return allTransactions.filter(transaction => transaction.category === category)
+    return allTransactions.filter(transaction => transaction.categoryId === categoryId)
   }
 
   // 计算总收入

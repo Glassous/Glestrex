@@ -24,6 +24,10 @@ export default {
     viewAll: '查看全部',
     warning: '警告',
     info: '信息',
+    clear: '清除',
+    to: '至',
+    generatedAt: '生成时间',
+    totalRecords: '总记录数',
     messages: {
       transactionSaved: '交易保存成功！',
       transactionUpdated: '交易更新成功！',
@@ -75,10 +79,22 @@ export default {
     description: '描述',
     category: '分类',
     account: '账户',
+    targetAccount: '目标账户',
     date: '日期',
     download: '下载',
     copy: '复制',
+    records: '条记录',
+    noTransactions: '暂无交易记录',
     allTransactionsReport: '所有交易记录报告',
+    filters: {
+      dateRange: '日期范围',
+      startDate: '开始日期',
+      endDate: '结束日期',
+      category: '分类筛选',
+      allCategories: '全部分类',
+      type: '类型筛选',
+      allTypes: '全部类型'
+    },
     type: {
       income: '收入',
       expense: '支出',

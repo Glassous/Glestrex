@@ -2,7 +2,6 @@
   <div class="details-page">
     <!-- 固定顶部栏 -->
     <div class="top-bar">
-      <img src="/src/images/glestrexlogo+glestrex.png" alt="Glestrex" class="app-logo" />
       <h1 class="page-title">{{ $t('nav.details') }}</h1>
     </div>
 
@@ -57,21 +56,21 @@
       <h2 class="section-title">{{ $t('details.dataOverview') }}</h2>
       <div class="stats-cards">
         <div class="stat-card">
-          <div class="stat-icon income">💰</div>
+          <IconComponent name="dollar-sign" class="stat-icon income" :size="24" />
           <div class="stat-content">
             <div class="stat-label">{{ $t('details.totalIncome') }}</div>
             <div class="stat-value income">¥{{ formatAmount(totalIncome) }}</div>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon expense">💸</div>
+          <IconComponent name="trending-down" class="stat-icon expense" :size="24" />
           <div class="stat-content">
             <div class="stat-label">{{ $t('details.totalExpense') }}</div>
             <div class="stat-value expense">¥{{ formatAmount(totalExpense) }}</div>
           </div>
         </div>
         <div class="stat-card">
-          <div class="stat-icon balance">📊</div>
+          <IconComponent name="bar-chart-3" class="stat-icon balance" :size="24" />
           <div class="stat-content">
             <div class="stat-label">{{ $t('details.netAmount') }}</div>
             <div class="stat-value" :class="{ 'positive': netIncome >= 0, 'negative': netIncome < 0 }">
@@ -117,6 +116,7 @@ import { ref, computed, onMounted, nextTick } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
 import { Line, Column, Area } from '@antv/g2plot'
+import IconComponent from '../components/IconComponent.vue'
 import transactionService from '../services/transactionService.js'
 import databaseService from '../services/database.js'
 
@@ -501,7 +501,7 @@ onMounted(() => {
 /* 页面整体布局 */
 .details-page {
   padding: 24px;
-  padding-top: 84px; /* 为固定顶部栏留出空间 */
+  padding-top: 120px; /* 为固定顶部栏留出空间 */
   padding-bottom: 120px; /* 为底部导航栏留出空间 */
   max-width: 1200px;
   margin: 0 auto;
@@ -625,7 +625,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 100px;
   background: var(--top-bar-bg);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -635,6 +635,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   gap: 16px;
+  padding-top: 52px;
   z-index: 1000;
 }
 
@@ -644,10 +645,11 @@ onMounted(() => {
 }
 
 .page-title {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
+  text-align: center;
 }
 
 /* 通用区块样式 */

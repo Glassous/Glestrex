@@ -1,7 +1,5 @@
 # Glestrex - 个人财务管理应用
 
-![Glestrex Logo](src/images/glestrexlogo+glestrex.png)
-
 一个现代化的个人财务管理应用，基于 Vue 3 构建，提供直观的界面和强大的功能来帮助您管理个人财务。
 
 ## ✨ 主要功能

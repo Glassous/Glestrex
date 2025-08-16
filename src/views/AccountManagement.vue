@@ -4,9 +4,9 @@
       <button class="back-btn" @click="$router.go(-1)">
         <span class="back-icon">←</span>
       </button>
-      <img src="/src/images/glestrexlogo+glestrex.png" alt="Glestrex" class="app-logo" />
+      <h1 class="page-title">账户管理</h1>
       <BaseButton @click="showCreateForm = true" variant="primary" class="add-account-btn">
-        <span class="icon">➕</span>
+        <IconComponent name="plus" :size="16" />
         {{ $t('accountManagement.createAccount') }}
       </BaseButton>
     </div>
@@ -18,7 +18,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ editingAccount ? $t('accountManagement.editAccount') : $t('accountManagement.createAccount') }}</h2>
-          <button class="close-btn" @click="closeForm">✕</button>
+          <button class="close-btn" @click="closeForm"><IconComponent name="x" :size="20" /></button>
         </div>
         
         <form @submit.prevent="submitAccount">
@@ -41,7 +41,7 @@
                 :class="['type-btn', { active: accountForm.type === type.value }]"
                 @click="selectAccountType(type.value)"
               >
-                <span class="type-icon">{{ type.icon }}</span>
+                <IconComponent :name="type.icon" class="type-icon" :size="24" />
                 <span class="type-label">{{ type.label }}</span>
                 <span class="type-desc">{{ type.description }}</span>
               </button>
@@ -171,7 +171,7 @@
             class="action-btn download-btn"
             :title="$t('accountManagement.downloadBalances')"
           >
-            📥 {{ $t('accountManagement.download') }}
+            <IconComponent name="download" :size="16" /> {{ $t('accountManagement.download') }}
           </BaseButton>
           <BaseButton 
             variant="outline-primary" 
@@ -180,7 +180,7 @@
             class="action-btn copy-btn"
             :title="$t('accountManagement.copyBalances')"
           >
-            📋 {{ $t('accountManagement.copy') }}
+            <IconComponent name="copy" :size="16" /> {{ $t('accountManagement.copy') }}
           </BaseButton>
         </div>
       </div>
@@ -191,7 +191,7 @@
       <div class="account-type-sections">
         <div v-for="typeGroup in groupedAccounts" :key="typeGroup.type" class="account-type-section">
           <h3 class="section-title">
-            <span class="section-icon">{{ getTypeIcon(typeGroup.type) }}</span>
+            <IconComponent :name="getTypeIcon(typeGroup.type)" class="section-icon" :size="20" />
             {{ getTypeLabel(typeGroup.type) }}
             <span class="account-count">({{ typeGroup.accounts.length }})</span>
           </h3>
@@ -206,10 +206,10 @@
                 <div class="account-name">{{ account.name }}</div>
                 <div class="account-actions">
                   <BaseButton variant="outline-primary" size="small" @click="editAccount(account)" :title="$t('common.edit')">
-                    ✏️
+                    <IconComponent name="edit" :size="16" />
                   </BaseButton>
                   <BaseButton variant="outline-danger" size="small" @click="deleteAccount(account)" :title="$t('common.delete')">
-                    🗑️
+                    <IconComponent name="trash-2" :size="16" />
                   </BaseButton>
                 </div>
               </div>
@@ -258,6 +258,7 @@ import eventBus, { EVENTS } from '../utils/eventBus.js'
 import FormInput from '../components/FormInput.vue'
 import FormSelect from '../components/FormSelect.vue'
 import BaseButton from '../components/BaseButton.vue'
+import IconComponent from '../components/IconComponent.vue'
 
 const router = useRouter()
 const { t } = useI18n()
@@ -289,19 +290,19 @@ const accountTypes = computed(() => [
   {
     value: 'cash',
     label: t('accountManagement.type.cash'),
-    icon: '💰',
+    icon: 'dollar-sign',
     description: t('accountManagement.typeDescriptions.cash')
   },
   {
     value: 'loan',
     label: t('accountManagement.type.loan'),
-    icon: '🏦',
+    icon: 'building-2',
     description: t('accountManagement.typeDescriptions.loan')
   },
   {
     value: 'virtual',
     label: t('accountManagement.type.virtual'),
-    icon: '🎮',
+    icon: 'gamepad-2',
     description: t('accountManagement.typeDescriptions.virtual')
   }
 ])
@@ -599,7 +600,7 @@ const closeForm = () => {
 
 const getTypeIcon = (type) => {
   const typeObj = accountTypes.value.find(t => t.value === type)
-  return typeObj ? typeObj.icon : '💰'
+  return typeObj ? typeObj.icon : 'dollar-sign'
 }
 
 const getTypeLabel = (type) => {
@@ -805,7 +806,7 @@ onUnmounted(() => {
 
 .content-wrapper {
   padding: 20px;
-  padding-top: 100px;
+  padding-top: 120px;
   display: flex;
   flex-direction: column;
   gap: 30px;
@@ -816,10 +817,12 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   right: 0;
+  height: 100px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 12px 20px;
+  padding-top: 52px;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -847,6 +850,14 @@ onUnmounted(() => {
   font-size: 20px;
   color: var(--text-primary);
   font-weight: bold;
+}
+
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
 }
 
 .app-logo {

@@ -5,7 +5,7 @@
       <button class="back-btn" @click="$router.go(-1)">
         <span class="back-icon">←</span>
       </button>
-      <img src="/src/images/glestrexlogo+glestrex.png" alt="Glestrex" class="app-logo" />
+      <h1 class="page-title">设置</h1>
     </div>
 
     <!-- 页面内容 -->
@@ -25,7 +25,7 @@
               :class="{ active: themeStore.themeMode === option.value }"
               @click="selectTheme(option.value)"
             >
-              <span class="theme-icon">{{ option.icon }}</span>
+              <IconComponent :name="option.icon" class="theme-icon" />
               <span class="theme-label">{{ option.label }}</span>
             </button>
           </div>
@@ -88,6 +88,7 @@ import { useRouter } from 'vue-router'
 import databaseService from '../services/database.js'
 import { useThemeStore } from '../stores/theme.js'
 import { useLanguageStore } from '../stores/language.js'
+import IconComponent from '../components/IconComponent.vue'
 
 const router = useRouter()
 const showDialog = ref(false)
@@ -100,9 +101,9 @@ const showLanguageSelector = ref(false)
 
 // 主题选项
 const themeOptions = computed(() => [
-  { value: 'system', label: $t('settings.themeSystem'), icon: '🔄' },
-  { value: 'light', label: $t('settings.themeLight'), icon: '☀️' },
-  { value: 'dark', label: $t('settings.themeDark'), icon: '🌙' }
+  { value: 'system', label: $t('settings.themeSystem'), icon: 'refresh-cw' },
+  { value: 'light', label: $t('settings.themeLight'), icon: 'sun' },
+  { value: 'dark', label: $t('settings.themeDark'), icon: 'moon' }
 ])
 
 // 返回上一页
@@ -300,10 +301,12 @@ const clearAllData = async () => {
   top: 0;
   left: 0;
   right: 0;
+  height: 100px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 12px 20px;
+  padding-top: 52px;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
@@ -336,6 +339,14 @@ const clearAllData = async () => {
   font-weight: bold;
 }
 
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
+}
+
 .app-logo {
   height: 40px;
   width: auto;
@@ -343,7 +354,7 @@ const clearAllData = async () => {
 
 /* 页面内容 */
 .page-content {
-  padding-top: 100px;
+  padding-top: 140px;
   padding-bottom: 20px;
 }
 

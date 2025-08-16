@@ -2,7 +2,7 @@
   <div class="profile-page">
     <!-- 固定顶部栏 -->
     <div class="top-bar">
-      <img src="/src/images/glestrexlogo+glestrex.png" alt="Glestrex" class="app-logo" />
+      <h1 class="page-title">个人资料</h1>
     </div>
 
     <!-- 页面内容 -->
@@ -10,7 +10,7 @@
       <!-- 管理入口 -->
       <div class="management-section">
         <div class="section-card" @click="goToAccountManagement">
-          <div class="card-icon">💰</div>
+          <IconComponent name="dollar-sign" class="card-icon" :size="32" />
           <div class="card-content">
             <h3>{{ $t('profile.accountManagement') }}</h3>
             <p>{{ $t('profile.manageAccountInfo') }}</p>
@@ -30,7 +30,7 @@
                 <div class="separator-line"></div>
               </div>
               <div class="type-header-card">
-                <div class="type-icon">{{ getTypeIcon(typeGroup.type) }}</div>
+                <IconComponent :name="getTypeIcon(typeGroup.type)" class="type-icon" :size="32" />
                 <div class="type-info">
                   <div class="type-name">{{ getTypeLabel(typeGroup.type) }}</div>
                   <div class="type-count">{{ typeGroup.accounts.length }}{{ $t('profile.accountUnit') }}</div>
@@ -75,7 +75,7 @@
       <!-- 设置按钮 -->
       <div class="settings-section">
         <button class="settings-btn" @click="goToSettings">
-          <span class="settings-icon">⚙️</span>
+          <IconComponent name="settings" class="settings-icon" :size="20" />
           <span class="settings-text">{{ $t('settings.title') }}</span>
         </button>
       </div>
@@ -87,6 +87,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useI18n } from 'vue-i18n'
 import { useRouter } from 'vue-router'
+import IconComponent from '../components/IconComponent.vue'
 import databaseService from '../services/database.js'
 import transactionService from '../services/transactionService.js'
 import eventBus, { EVENTS } from '../utils/eventBus.js'
@@ -103,17 +104,17 @@ const accountTypes = computed(() => [
   {
     value: 'cash',
     label: $t('accountManagement.type.cash'),
-    icon: '💰'
+    icon: 'dollar-sign'
   },
   {
     value: 'loan',
     label: $t('accountManagement.type.loan'),
-    icon: '🏦'
+    icon: 'building-2'
   },
   {
     value: 'virtual',
     label: $t('accountManagement.type.virtual'),
-    icon: '🎮'
+    icon: 'gamepad-2'
   }
 ])
 
@@ -144,7 +145,7 @@ const groupedAccounts = computed(() => {
 // 方法
 const getTypeIcon = (type) => {
   const typeObj = accountTypes.value.find(t => t.value === type)
-  return typeObj ? typeObj.icon : '💰'
+  return typeObj ? typeObj.icon : 'dollar-sign'
 }
 
 const getTypeLabel = (type) => {
@@ -270,15 +271,25 @@ onUnmounted(() => {
   top: 0;
   left: 0;
   right: 0;
+  height: 100px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
   padding: 12px 20px;
+  padding-top: 52px;
   z-index: 1000;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
 }
 
 .app-logo {
@@ -324,7 +335,7 @@ onUnmounted(() => {
 
 /* 页面内容 */
 .page-content {
-  padding: 80px 20px 20px;
+  padding: 120px 20px 20px;
   display: flex;
   flex-direction: column;
   gap: 30px;

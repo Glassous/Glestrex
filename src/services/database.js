@@ -79,20 +79,20 @@ class DatabaseService {
           // 添加默认分类
           const defaultCategories = [
             // 收入分类
-            { name: '工资', type: 'income', icon: '💰' },
-            { name: '奖金', type: 'income', icon: '🎁' },
-            { name: '投资收益', type: 'income', icon: '📈' },
-            { name: '其他收入', type: 'income', icon: '💵' },
+            { name: '工资', type: 'income', icon: 'dollar-sign' },
+            { name: '奖金', type: 'income', icon: 'gift' },
+            { name: '投资收益', type: 'income', icon: 'trending-up' },
+            { name: '其他收入', type: 'income', icon: 'banknote' },
             
             // 支出分类
-            { name: '餐饮', type: 'expense', icon: '🍽️' },
-            { name: '交通', type: 'expense', icon: '🚗' },
-            { name: '购物', type: 'expense', icon: '🛍️' },
-            { name: '娱乐', type: 'expense', icon: '🎮' },
-            { name: '医疗', type: 'expense', icon: '🏥' },
-            { name: '教育', type: 'expense', icon: '📚' },
-            { name: '住房', type: 'expense', icon: '🏠' },
-            { name: '其他支出', type: 'expense', icon: '💸' }
+            { name: '餐饮', type: 'expense', icon: 'utensils-crossed' },
+            { name: '交通', type: 'expense', icon: 'car' },
+            { name: '购物', type: 'expense', icon: 'shopping-bag' },
+            { name: '娱乐', type: 'expense', icon: 'gamepad-2' },
+            { name: '医疗', type: 'expense', icon: 'hospital' },
+            { name: '教育', type: 'expense', icon: 'book-open' },
+            { name: '住房', type: 'expense', icon: 'home' },
+            { name: '其他支出', type: 'expense', icon: 'trending-down' }
           ]
           
           defaultCategories.forEach(category => {

@@ -1,7 +1,7 @@
 <template>
   <!-- 固定顶部栏 -->
   <div class="top-bar">
-    <img src="/src/images/glestrexlogo+glestrex.png" alt="Glestrex" class="app-logo" />
+    <h1 class="page-title">{{ $t('nav.transactions') }}</h1>
     <div class="action-buttons">
       <BaseButton @click="downloadAllTransactions" variant="secondary" class="download-btn">{{ $t('transactions.download') }}</BaseButton>
       <BaseButton @click="copyAllTransactions" variant="secondary" class="copy-btn">{{ $t('transactions.copy') }}</BaseButton>
@@ -13,6 +13,64 @@
     <div class="page-header">
       <h1>{{ $t('nav.transactions') }}</h1>
     </div>
+
+    <!-- 筛选器 -->
+    <div class="filters-section">
+      <div class="filter-group">
+        <label>{{ $t('transactions.filters.dateRange') }}</label>
+        <div class="date-range-inputs">
+          <FormInput
+            v-model="filters.startDate"
+            type="date"
+            :placeholder="$t('transactions.filters.startDate')"
+          />
+          <span class="date-separator">{{ $t('common.to') }}</span>
+          <FormInput
+            v-model="filters.endDate"
+            type="date"
+            :placeholder="$t('transactions.filters.endDate')"
+          />
+        </div>
+      </div>
+      
+      <div class="filter-group">
+        <ModalSelect
+          v-model="filters.categoryId"
+          :label="$t('transactions.filters.category')"
+          :placeholder="$t('transactions.filters.allCategories')"
+          :modal-title="$t('transactions.filters.category')"
+          :options="[
+            { value: '', label: $t('transactions.filters.allCategories'), icon: 'help-circle' },
+            ...categories.map(category => ({
+              value: category.id,
+              label: category.name,
+              icon: category.icon
+            }))
+          ]"
+        />
+      </div>
+      
+      <div class="filter-group">
+        <ModalSelect
+          v-model="filters.type"
+          :label="$t('transactions.filters.type')"
+          :placeholder="$t('transactions.filters.allTypes')"
+          :modal-title="$t('transactions.filters.type')"
+          :options="[
+            { value: '', label: $t('transactions.filters.allTypes'), icon: 'help-circle' },
+            ...transactionTypes.map(type => ({
+              value: type.value,
+              label: type.label,
+              icon: type.icon
+            }))
+          ]"
+        />
+      </div>
+      
+      <div class="filter-actions">
+        <BaseButton @click="clearFilters" variant="outline-secondary">{{ $t('common.clear') }}</BaseButton>
+      </div>
+    </div>
   
   <!-- 交易创建表单弹窗 -->
   <div v-if="showForm" class="transaction-form-modal">
@@ -20,7 +78,11 @@
       <div class="modal-content">
         <div class="modal-header">
           <h2>{{ formTitle }}</h2>
-          <button class="close-btn" @click="cancelForm">{{ $t('common.close') }}</button>
+          <button class="close-btn" @click="cancelForm">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
         </div>
         
         <form @submit.prevent="submitTransaction">
@@ -111,38 +173,60 @@
       </div>
     </div>
   
-  <!-- 最近交易记录 -->
+  <!-- 交易记录 -->
   <div class="recent-transactions">
-      <h2>{{ $t('home.recentTransactions') }}</h2>
-      <div class="transaction-list">
+      <h2>{{ $t('transactions.allTransactions') }}</h2>
+      
+      <!-- 按日期分组的交易列表 -->
+      <div v-if="groupedTransactions.length > 0" class="grouped-transactions">
         <div 
-          v-for="transaction in recentTransactions" 
-          :key="transaction.id"
-          class="transaction-card"
-          :class="`card-${transaction.type}`"
+          v-for="group in groupedTransactions" 
+          :key="group.date"
+          class="date-group"
         >
-          <div class="card-content">
-            <div class="transaction-header">
-              <span class="transaction-type">{{ getTypeLabel(transaction.type) }}</span>
-            </div>
-            <div class="transaction-description">
-              {{ transaction.description || $t('common.noDescription') }}
-            </div>
-            <div class="transaction-footer">
-              <div class="transaction-amount" :class="getAmountClass(transaction.type)">
-                {{ formatAmount(transaction.amount, transaction.accountId) }}
-              </div>
-              <div class="transaction-actions">
-                <BaseButton @click="startEditTransaction(transaction)" variant="outline-secondary" size="sm">{{ $t('common.edit') }}</BaseButton>
-                <BaseButton @click="confirmDelete(transaction.id)" variant="outline-danger" size="sm">{{ $t('common.delete') }}</BaseButton>
-              </div>
-            </div>
+          <div class="date-header">
+            <h3>{{ formatGroupDate(group.date) }}</h3>
+            <span class="transaction-count">{{ group.transactions.length }} {{ $t('transactions.records') }}</span>
           </div>
-          <div class="date-box">
-            <span class="month">{{ formatDate(transaction.date).month }}{{ $t('datetime.month') }}</span>
-            <span class="date">{{ formatDate(transaction.date).day }}</span>
+          
+          <div class="transaction-list">
+            <div 
+              v-for="transaction in group.transactions" 
+              :key="transaction.id"
+              class="transaction-card"
+              :class="`card-${transaction.type}`"
+            >
+              <div class="card-content">
+                <div class="transaction-header">
+                  <span class="transaction-type">{{ getTypeLabel(transaction.type) }}</span>
+                  <div class="transaction-category" v-if="getCategoryName(transaction.categoryId)">
+                    {{ getCategoryName(transaction.categoryId) }}
+                  </div>
+                </div>
+                <div class="transaction-description">
+                  {{ transaction.description || $t('common.noDescription') }}
+                </div>
+                <div class="transaction-footer">
+                  <div class="transaction-amount" :class="getAmountClass(transaction.type)">
+                    {{ formatAmount(transaction.amount, transaction.accountId) }}
+                  </div>
+                  <div class="transaction-actions">
+                    <BaseButton @click="startEditTransaction(transaction)" variant="outline-secondary" size="sm">{{ $t('common.edit') }}</BaseButton>
+                    <BaseButton @click="confirmDelete(transaction.id)" variant="outline-danger" size="sm">{{ $t('common.delete') }}</BaseButton>
+                  </div>
+                </div>
+              </div>
+              <div class="time-box">
+                <span class="time">{{ formatTime(transaction.createdAt) }}</span>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
+      
+      <!-- 无数据提示 -->
+      <div v-else class="no-transactions">
+        <p>{{ $t('transactions.noTransactions') }}</p>
       </div>
     </div>
   </div>
@@ -158,8 +242,10 @@ import eventBus, { EVENTS } from '../utils/eventBus.js'
 import FormInput from '../components/FormInput.vue'
 import FormInputWithCalculator from '../components/FormInputWithCalculator.vue'
 import FormSelect from '../components/FormSelect.vue'
+import ModalSelect from '../components/ModalSelect.vue'
 import FormTextarea from '../components/FormTextarea.vue'
 import BaseButton from '../components/BaseButton.vue'
+import IconComponent from '../components/IconComponent.vue'
 
 const transactionStore = useTransactionStore()
 const { t: $t } = useI18n()
@@ -170,6 +256,14 @@ const accounts = ref([])
 const categories = ref([])
 const recentTransactions = ref([])
 const editingTransaction = ref(null)
+
+// 筛选器数据
+const filters = reactive({
+  startDate: '',
+  endDate: '',
+  categoryId: '',
+  type: ''
+})
 
 // 表单数据
 const form = reactive({
@@ -186,12 +280,12 @@ const formTitle = computed(() => editingTransaction.value ? $t('transactions.edi
 
 // 交易类型定义
 const transactionTypes = computed(() => [
-  { value: 'income', label: $t('transactions.type.income'), icon: '💰' },
-  { value: 'expense', label: $t('transactions.type.expense'), icon: '💸' },
-  { value: 'transfer', label: $t('transactions.type.transfer'), icon: '🔄' },
-  { value: 'borrow', label: $t('transactions.type.borrow'), icon: '📈' },
-  { value: 'repay', label: $t('transactions.type.repay'), icon: '📉' },
-  { value: 'adjust', label: $t('transactions.type.adjust'), icon: '⚖️' }
+  { value: 'income', label: $t('transactions.type.income'), icon: 'dollar-sign' },
+  { value: 'expense', label: $t('transactions.type.expense'), icon: 'trending-down' },
+  { value: 'transfer', label: $t('transactions.type.transfer'), icon: 'refresh-cw' },
+  { value: 'borrow', label: $t('transactions.type.borrow'), icon: 'trending-up' },
+  { value: 'repay', label: $t('transactions.type.repay'), icon: 'trending-down' },
+  { value: 'adjust', label: $t('transactions.type.adjust'), icon: 'scale' }
 ])
 
 // 计算属性
@@ -209,6 +303,56 @@ const isFormValid = computed(() => {
     return basicValid && form.peerAccountId && form.peerAccountId !== form.accountId
   }
   return basicValid
+})
+
+// 筛选后的交易
+const filteredTransactions = computed(() => {
+  let filtered = [...recentTransactions.value]
+  
+  // 日期筛选
+  if (filters.startDate) {
+    filtered = filtered.filter(t => t.date >= filters.startDate)
+  }
+  if (filters.endDate) {
+    filtered = filtered.filter(t => t.date <= filters.endDate)
+  }
+  
+  // 分类筛选
+  if (filters.categoryId) {
+    const categoryId = parseInt(filters.categoryId)
+    filtered = filtered.filter(t => t.categoryId === categoryId)
+  }
+  
+  // 类型筛选
+  if (filters.type) {
+    filtered = filtered.filter(t => t.type === filters.type)
+  }
+  
+  return filtered
+})
+
+// 按日期分组的交易
+const groupedTransactions = computed(() => {
+  const groups = {}
+  
+  filteredTransactions.value.forEach(transaction => {
+    const date = transaction.date || transaction.createdAt.split('T')[0]
+    if (!groups[date]) {
+      groups[date] = {
+        date,
+        transactions: []
+      }
+    }
+    groups[date].transactions.push(transaction)
+  })
+  
+  // 转换为数组并按日期排序（最新的在前）
+  return Object.values(groups)
+    .sort((a, b) => new Date(b.date) - new Date(a.date))
+    .map(group => ({
+      ...group,
+      transactions: group.transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
+    }))
 })
 
 // 方法
@@ -240,6 +384,7 @@ const submitTransaction = async () => {
         ...editingTransaction.value, // 保留原始数据，如 createdAt
         ...form, // 使用表单数据覆盖
         amount: parseFloat(form.amount),
+        categoryId: form.categoryId ? parseInt(form.categoryId) : null,
       };
       await transactionService.updateTransaction(transactionData);
       alert($t('common.messages.transactionUpdated'));
@@ -248,6 +393,7 @@ const submitTransaction = async () => {
       const transactionData = {
         ...form,
         amount: parseFloat(form.amount),
+        categoryId: form.categoryId ? parseInt(form.categoryId) : null,
       };
       await transactionService.addTransaction(transactionData);
       alert($t('common.messages.transactionSaved'));
@@ -343,6 +489,53 @@ const getAmountClass = (type) => {
   if (type === 'income' || type === 'borrow') return 'positive'
   if (type === 'expense' || type === 'repay') return 'negative'
   return 'neutral'
+}
+
+// 清除筛选器
+const clearFilters = () => {
+  Object.assign(filters, {
+    startDate: '',
+    endDate: '',
+    categoryId: '',
+    type: ''
+  })
+}
+
+// 获取分类名称
+const getCategoryName = (categoryId) => {
+  if (!categoryId) return ''
+  const category = categories.value.find(cat => cat.id === categoryId)
+  return category ? category.name : ''
+}
+
+// 格式化分组日期
+const formatGroupDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const today = new Date()
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
+  
+  if (dateStr === today.toISOString().split('T')[0]) {
+    return $t('datetime.today')
+  } else if (dateStr === yesterday.toISOString().split('T')[0]) {
+    return $t('datetime.yesterday')
+  } else {
+    return date.toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      weekday: 'long'
+    })
+  }
+}
+
+// 格式化时间
+const formatTime = (dateTimeStr) => {
+  const date = new Date(dateTimeStr)
+  return date.toLocaleTimeString('zh-CN', {
+    hour: '2-digit',
+    minute: '2-digit'
+  })
 }
 
 // 下载所有交易记录
@@ -501,7 +694,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 100px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -511,7 +704,16 @@ onMounted(() => {
   align-items: center;
   justify-content: space-between;
   padding: 0 24px;
+  padding-top: 52px;
   z-index: 1000;
+}
+
+.page-title {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  text-align: center;
 }
 
 .app-logo {
@@ -527,40 +729,53 @@ onMounted(() => {
 }
 
 .download-btn, .copy-btn {
-  background: #007bff !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   color: white !important;
-  border: 2px solid #007bff !important;
-  border-radius: 8px !important;
-  padding: 10px 16px !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 12px 20px !important;
   font-weight: 600 !important;
   font-size: 14px !important;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3) !important;
-  transition: all 0.2s ease !important;
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
 }
 
 .download-btn:hover, .copy-btn:hover {
-  background: #0056b3 !important;
-  border-color: #0056b3 !important;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4) !important;
-  transform: translateY(-1px) !important;
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6) !important;
+  transform: translateY(-2px) scale(1.02) !important;
+}
+
+.download-btn:active, .copy-btn:active {
+  transform: translateY(0) scale(0.98) !important;
+  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4) !important;
 }
 
 .add-transaction-btn {
-  background: #007bff !important;
+  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
   color: white !important;
-  border: 2px solid #007bff !important;
-  border-radius: 8px !important;
-  padding: 12px 24px !important;
-  font-weight: 600 !important;
-  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3) !important;
-  transition: all 0.2s ease !important;
+  border: none !important;
+  border-radius: 12px !important;
+  padding: 14px 28px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4) !important;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  position: relative;
+  overflow: hidden;
 }
 
 .add-transaction-btn:hover {
-  background: #0056b3 !important;
-  border-color: #0056b3 !important;
-  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.4) !important;
-  transform: translateY(-1px) !important;
+  background: linear-gradient(135deg, #ff5252 0%, #d63031 100%) !important;
+  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6) !important;
+  transform: translateY(-3px) scale(1.05) !important;
+}
+
+.add-transaction-btn:active {
+  transform: translateY(-1px) scale(1.02) !important;
+  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
 }
 
 @media (max-width: 768px) {
@@ -582,12 +797,77 @@ onMounted(() => {
 /* 页面容器 */
 .transactions-page {
   padding: 24px;
-  padding-top: 84px; /* 为固定顶部栏留出空间 */
+  padding-top: 120px; /* 为固定顶部栏留出空间 */
   padding-bottom: 120px; /* 为底部导航栏留出空间 */
   max-width: 1200px;
   margin: 0 auto;
   background: var(--bg-secondary);
   min-height: 100vh;
+}
+
+/* 筛选器样式 */
+.filters-section {
+  background: var(--bg-primary);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.filter-group label {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 14px;
+}
+
+.date-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.date-separator {
+  color: var(--text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  height: 44px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.filter-actions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 44px;
+}
+
+@media (max-width: 768px) {
+  .filters-section {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+  
+  .date-range-inputs {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .date-separator {
+    display: none;
+  }
 }
 
 .page-header {
@@ -701,37 +981,58 @@ select:focus, input:focus, textarea:focus {
   margin-top: 30px;
 }
 
+/* 通用按钮样式增强 */
 .btn-primary, .btn-secondary {
   padding: 12px 24px;
   border: none;
-  border-radius: 6px;
+  border-radius: 10px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .btn-primary {
-  background: var(--primary-color);
+  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
   color: #fff;
+  border: 2px solid transparent;
 }
 
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
+  background: linear-gradient(135deg, #43a3f5 0%, #00d4e6 100%);
+  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
 }
 
 .btn-primary:disabled {
-  background: var(--border-color);
+  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+  color: #a0aec0;
   cursor: not-allowed;
+  box-shadow: none;
 }
 
 .btn-secondary {
-  background: var(--text-secondary);
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: #fff;
 }
 
 .btn-secondary:hover {
-  background: var(--text-tertiary);
+  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+  transform: translateY(-2px);
+}
+
+.btn-secondary:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .recent-transactions {
@@ -780,6 +1081,80 @@ select:focus, input:focus, textarea:focus {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+}
+
+/* 日期分组样式 */
+.grouped-transactions {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.date-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.date-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 2px solid var(--border-color);
+}
+
+.date-header h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.transaction-count {
+  font-size: 14px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 4px 12px;
+  border-radius: 12px;
+}
+
+.transaction-category {
+  font-size: 12px;
+  color: var(--text-secondary);
+  background: var(--bg-secondary);
+  padding: 2px 8px;
+  border-radius: 8px;
+  margin-left: auto;
+}
+
+.time-box {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: var(--bg-secondary);
+  border-radius: 6px;
+  padding: 4px 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.time-box .time {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
+.no-transactions {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--text-secondary);
+}
+
+.no-transactions p {
+  font-size: 16px;
+  margin: 0;
 }
 
 /* Different transaction type colors */
@@ -962,10 +1337,12 @@ form {
   border-top: 1px solid #e1e5e9;
 }
 
+/* 计算器在窄屏时上浮样式 */
 @media (max-width: 768px) {
   .modal-content {
     width: 95%;
     margin: 20px;
+    padding-bottom: 100px; /* 为计算器留出空间 */
   }
   
   .transaction-types {
@@ -978,6 +1355,38 @@ form {
   
   .btn-primary, .btn-secondary {
     width: 100%;
+  }
+  
+  /* 计算器上浮样式 */
+  .inline-calculator {
+    position: fixed !important;
+    bottom: 80px !important;
+    left: 10px !important;
+    right: 10px !important;
+    z-index: 2000 !important;
+    margin: 0 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
+    border: 2px solid #007bff !important;
+    background: white !important;
+    border-radius: 12px !important;
+    max-height: 60vh;
+    overflow-y: auto;
+  }
+  
+  /* 计算器按钮美化 */
+  .calculator-btn {
+    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 8px !important;
+    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3) !important;
+    transition: all 0.3s ease !important;
+  }
+  
+  .calculator-btn:hover {
+    background: linear-gradient(135deg, #43a3f5 0%, #00d4e6 100%) !important;
+    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4) !important;
+    transform: translateY(-50%) scale(1.05) !important;
   }
 }
 </style>

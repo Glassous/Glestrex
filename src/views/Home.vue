@@ -12,7 +12,7 @@
         <div class="overview-card net-worth-card">
           <div class="card-header">
             <h3>{{ $t('home.totalBalance') }}</h3>
-            <span class="card-icon">💰</span>
+            <IconComponent name="dollar-sign" class="card-icon" :size="20" />
           </div>
           <div class="card-content">
             <div v-if="Object.keys(netWorth).length > 0" class="net-worth-list">
@@ -31,7 +31,7 @@
         <div class="overview-card today-card">
           <div class="card-header">
             <h3>{{ $t('datetime.today') }}</h3>
-            <span class="card-icon">📊</span>
+            <IconComponent name="bar-chart-3" class="card-icon" :size="20" />
           </div>
           <div class="card-content">
             <div class="income-expense">
@@ -57,7 +57,7 @@
         <div class="overview-card month-card">
           <div class="card-header">
             <h3>{{ $t('datetime.thisMonth') }}</h3>
-            <span class="card-icon">📈</span>
+            <IconComponent name="trending-up" class="card-icon" :size="20" />
           </div>
           <div class="card-content">
             <div class="income-expense">
@@ -87,22 +87,22 @@
       <div class="quick-actions-grid">
         <!-- 快速记账 -->
         <div class="quick-action-card" @click="openQuickForm('income')">
-          <div class="action-icon income-icon">💰</div>
+          <IconComponent name="dollar-sign" class="action-icon income-icon" :size="24" />
           <div class="action-label">{{ $t('home.income') }}</div>
         </div>
         
         <div class="quick-action-card" @click="openQuickForm('expense')">
-          <div class="action-icon expense-icon">💸</div>
+          <IconComponent name="trending-down" class="action-icon expense-icon" :size="24" />
           <div class="action-label">{{ $t('home.expense') }}</div>
         </div>
         
         <div class="quick-action-card" @click="openQuickForm('transfer')">
-          <div class="action-icon transfer-icon">🔄</div>
+          <IconComponent name="arrow-right-left" class="action-icon transfer-icon" :size="24" />
           <div class="action-label">{{ $t('home.transfer') }}</div>
         </div>
         
         <div class="quick-action-card" @click="openQuickForm('adjust')">
-          <div class="action-icon adjust-icon">⚖️</div>
+          <IconComponent name="scale" class="action-icon adjust-icon" :size="24" />
           <div class="action-label">{{ $t('transactions.type.adjust') }}</div>
         </div>
       </div>
@@ -217,19 +217,19 @@
       <h2 class="section-title">{{ $t('home.quickActions') }}</h2>
       <div class="nav-grid">
         <div class="nav-item" @click="$router.push('/transactions')">
-          <div class="nav-icon">📊</div>
+          <IconComponent name="bar-chart-3" class="nav-icon" :size="24" />
           <div class="nav-label">{{ $t('nav.transactions') }}</div>
         </div>
         <div class="nav-item" @click="$router.push('/account-management')">
-          <div class="nav-icon">🏦</div>
+          <IconComponent name="building-2" class="nav-icon" :size="24" />
           <div class="nav-label">{{ $t('profile.accountManagement') }}</div>
         </div>
         <div class="nav-item" @click="$router.push('/details')">
-          <div class="nav-icon">👤</div>
+          <IconComponent name="user" class="nav-icon" :size="24" />
           <div class="nav-label">{{ $t('nav.profile') }}</div>
         </div>
         <div class="nav-item" @click="$router.push('/settings')">
-          <div class="nav-icon">⚙️</div>
+          <IconComponent name="settings" class="nav-icon" :size="24" />
           <div class="nav-label">{{ $t('settings.title') }}</div>
         </div>
       </div>
@@ -249,7 +249,7 @@
             <div class="transaction-main">
               <div class="transaction-info">
                 <div class="transaction-type">
-                  <span class="type-icon">{{ getTransactionTypeIcon(transaction.type) }}</span>
+                  <IconComponent :name="getTransactionTypeIcon(transaction.type)" class="type-icon" :size="16" />
                   <span class="type-label">{{ getTransactionTypeLabel(transaction.type) }}</span>
                 </div>
                 <div class="transaction-details">
@@ -286,6 +286,7 @@ import BaseButton from '../components/BaseButton.vue'
 import FormSelect from '../components/FormSelect.vue'
 import FormInputWithCalculator from '../components/FormInputWithCalculator.vue'
 import FormTextarea from '../components/FormTextarea.vue'
+import IconComponent from '../components/IconComponent.vue'
 import databaseService from '../services/database.js'
 import transactionService from '../services/transactionService.js'
 import eventBus, { EVENTS } from '../utils/eventBus.js'
@@ -509,14 +510,14 @@ const submitQuickTransaction = async () => {
 // 获取交易类型图标
 const getTransactionTypeIcon = (type) => {
   const icons = {
-    income: '💰',
-    expense: '💸',
-    transfer: '🔄',
-    borrow: '📈',
-    repay: '📉',
-    adjust: '⚖️'
+    income: 'dollar-sign',
+    expense: 'trending-down',
+    transfer: 'refresh-cw',
+    borrow: 'trending-up',
+    repay: 'trending-down',
+    adjust: 'scale'
   }
-  return icons[type] || '❓'
+  return icons[type] || 'help-circle'
 }
 
 // 获取交易类型标签
@@ -620,7 +621,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 100px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -630,6 +631,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding-top: 40px;
 }
 
 .app-logo {
@@ -639,7 +641,7 @@ onMounted(() => {
 
 .home-page {
   padding: 24px;
-  padding-top: 84px; /* 为固定顶部栏留出空间 */
+  padding-top: 124px; /* 为固定顶部栏留出空间 */
   padding-bottom: 120px; /* 为底部导航栏留出空间 */
   max-width: 1200px;
   margin: 0 auto;

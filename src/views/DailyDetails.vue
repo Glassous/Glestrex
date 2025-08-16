@@ -7,13 +7,13 @@
           <path d="M15 18L9 12L15 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
       </button>
-      <h1 class="page-title">{{ formatDate(selectedDate.value) }}</h1>
+      <h1 class="page-title">每日详情</h1>
     </div>
 
     <!-- 当日概览 -->
     <div class="daily-overview">
       <div class="overview-card income">
-        <div class="card-icon">📈</div>
+        <IconComponent name="trending-up" class="card-icon" :size="24" />
         <div class="card-content">
           <div class="card-label">{{ $t('details.totalIncome') }}</div>
           <div class="card-value income-value">+{{ formatAmount(dailyStats.totalIncome) }}</div>
@@ -21,7 +21,7 @@
       </div>
       
       <div class="overview-card expense">
-        <div class="card-icon">📉</div>
+        <IconComponent name="trending-down" class="card-icon" :size="24" />
         <div class="card-content">
           <div class="card-label">{{ $t('details.totalExpense') }}</div>
           <div class="card-value expense-value">-{{ formatAmount(dailyStats.totalExpense) }}</div>
@@ -29,7 +29,7 @@
       </div>
       
       <div class="overview-card net">
-        <div class="card-icon">💰</div>
+        <IconComponent name="dollar-sign" class="card-icon" :size="24" />
         <div class="card-content">
           <div class="card-label">{{ $t('details.netAmount') }}</div>
           <div class="card-value" :class="{ 'income-value': dailyStats.netAmount >= 0, 'expense-value': dailyStats.netAmount < 0 }">
@@ -39,7 +39,7 @@
       </div>
       
       <div class="overview-card count">
-        <div class="card-icon">📊</div>
+        <IconComponent name="bar-chart-3" class="card-icon" :size="24" />
         <div class="card-content">
           <div class="card-label">{{ $t('details.transactionCount') }}</div>
           <div class="card-value">{{ dailyTransactions.length }}</div>
@@ -71,7 +71,7 @@
       <div v-else class="transaction-list">
         <div v-for="transaction in dailyTransactions" :key="transaction.id" class="transaction-item">
           <div class="transaction-icon" :class="transaction.type">
-            {{ getTransactionIcon(transaction.type) }}
+            <IconComponent :name="getTransactionIcon(transaction.type)" :size="20" />
           </div>
           <div class="transaction-content">
             <div class="transaction-description">{{ transaction.description || $t('common.noDescription') }}</div>
@@ -95,11 +95,15 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useI18n } from 'vue-i18n'
+import IconComponent from '../components/IconComponent.vue'
 import transactionService from '../services/transactionService'
 import databaseService from '../services/database'
 
 export default {
   name: 'DailyDetails',
+  components: {
+    IconComponent
+  },
   setup() {
     const route = useRoute()
     const router = useRouter()
@@ -201,20 +205,20 @@ export default {
     
     const getTransactionIcon = (type) => {
       const icons = {
-        income: '💰',
-        expense: '💸',
-        transfer: '🔄'
+        income: 'dollar-sign',
+        expense: 'trending-down',
+        transfer: 'refresh-cw'
       }
-      return icons[type] || '📝'
+      return icons[type] || 'book-open'
     }
     
     const getAccountIcon = (type) => {
       const icons = {
-        cash: '💳',
-        loan: '🏦',
-        virtual: '🎮'
+        cash: 'credit-card',
+        loan: 'building-2',
+        virtual: 'gamepad-2'
       }
-      return icons[type] || '💼'
+      return icons[type] || 'building-2'
     }
     
     const goBack = () => {
@@ -317,7 +321,7 @@ export default {
   min-height: 100vh;
   background: var(--background-color);
   color: var(--text-color);
-  padding-top: 80px;
+  padding-top: 120px;
   padding-bottom: 20px;
 }
 
@@ -326,7 +330,7 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  height: 60px;
+  height: 100px;
   background: var(--top-bar-background);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-color);
@@ -334,7 +338,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
+  padding: 52px 20px 0 20px;
   z-index: 1000;
 }
 
@@ -353,7 +357,7 @@ export default {
 }
 
 .page-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   margin: 0;
   flex: 1;

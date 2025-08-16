@@ -61,18 +61,18 @@
       }
     ],
     "categories": [
-      { "id": 1, "name": "工资", "type": "income", "icon": "💰" },
-      { "id": 2, "name": "奖金", "type": "income", "icon": "🎁" },
-      { "id": 3, "name": "投资收益", "type": "income", "icon": "📈" },
-      { "id": 4, "name": "其他收入", "type": "income", "icon": "💵" },
-      { "id": 5, "name": "餐饮", "type": "expense", "icon": "🍽️" },
-      { "id": 6, "name": "交通", "type": "expense", "icon": "🚗" },
-      { "id": 7, "name": "购物", "type": "expense", "icon": "🛍️" },
-      { "id": 8, "name": "娱乐", "type": "expense", "icon": "🎮" },
-      { "id": 9, "name": "医疗", "type": "expense", "icon": "🏥" },
-      { "id": 10, "name": "教育", "type": "expense", "icon": "📚" },
-      { "id": 11, "name": "住房", "type": "expense", "icon": "🏠" },
-      { "id": 12, "name": "其他支出", "type": "expense", "icon": "💸" }
+      { "id": 1, "name": "工资", "type": "income", "icon": "dollar-sign" },
+      { "id": 2, "name": "奖金", "type": "income", "icon": "gift" },
+      { "id": 3, "name": "投资收益", "type": "income", "icon": "trending-up" },
+      { "id": 4, "name": "其他收入", "type": "income", "icon": "banknote" },
+      { "id": 5, "name": "餐饮", "type": "expense", "icon": "utensils-crossed" },
+      { "id": 6, "name": "交通", "type": "expense", "icon": "car" },
+      { "id": 7, "name": "购物", "type": "expense", "icon": "shopping-bag" },
+      { "id": 8, "name": "娱乐", "type": "expense", "icon": "gamepad-2" },
+      { "id": 9, "name": "医疗", "type": "expense", "icon": "hospital" },
+      { "id": 10, "name": "教育", "type": "expense", "icon": "book-open" },
+      { "id": 11, "name": "住房", "type": "expense", "icon": "home" },
+      { "id": 12, "name": "其他支出", "type": "expense", "icon": "trending-down" }
     ],
     "transactions": [
       {
