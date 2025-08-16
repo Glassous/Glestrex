@@ -1,0 +1,281 @@
+/* 主题样式定义 */
+
+/* 浅色主题（默认） */
+:root {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8f9fa;
+  --bg-tertiary: #fafafa;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --text-tertiary: #999999;
+  --border-color: #f0f0f0;
+  --shadow-color: rgba(0, 0, 0, 0.1);
+  --top-bar-bg: rgba(250, 250, 250, 0.8);
+  --card-bg: #ffffff;
+  --hover-bg: #f8f9fa;
+  --active-bg: #007bff;
+  --danger-color: #dc3545;
+  --success-color: #28a745;
+  --warning-color: #ffc107;
+  --info-color: #17a2b8;
+}
+
+/* 深色主题 */
+[data-theme="dark"] {
+  --bg-primary: #303030;
+  --bg-secondary: #303030;
+  --bg-tertiary: #404040;
+  --text-primary: #ffffff;
+  --text-secondary: #e0e0e0;
+  --text-tertiary: #b0b0b0;
+  --border-color: #555555;
+  --shadow-color: rgba(0, 0, 0, 0.3);
+  --top-bar-bg: rgba(48, 48, 48, 0.9);
+  --card-bg: #303030;
+  --hover-bg: #404040;
+  --active-bg: #0056b3;
+  --danger-color: #ff6b6b;
+  --success-color: #51cf66;
+  --warning-color: #ffd43b;
+  --info-color: #339af0;
+}
+
+/* 全局样式应用 */
+body {
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* 顶部栏样式 */
+.top-bar {
+  background: var(--top-bar-bg) !important;
+  box-shadow: 0 2px 10px var(--shadow-color) !important;
+}
+
+/* 卡片样式 */
+.card, .settings-section, .account-card, .transaction-card {
+  background: var(--card-bg) !important;
+  box-shadow: 0 2px 8px var(--shadow-color) !important;
+}
+
+/* 文本颜色 */
+.settings-section h2 {
+  color: var(--text-primary) !important;
+  background: var(--bg-tertiary) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.setting-item {
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.setting-item:hover {
+  background-color: var(--hover-bg) !important;
+}
+
+/* 主题选择器样式 */
+.theme-selector {
+  background: var(--bg-tertiary) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+.theme-option {
+  border-bottom: 1px solid var(--border-color) !important;
+  color: var(--text-primary) !important;
+}
+
+.theme-option:hover {
+  background-color: var(--hover-bg) !important;
+}
+
+/* 表单样式 */
+.form-input, .form-select, .form-textarea {
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+/* 按钮样式 */
+.btn-cancel {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-secondary) !important;
+}
+
+.btn-cancel:hover {
+  background: var(--hover-bg) !important;
+}
+
+/* 对话框样式 */
+.dialog {
+  background: var(--card-bg) !important;
+}
+
+.dialog h3 {
+  color: var(--text-primary) !important;
+}
+
+.dialog p {
+  color: var(--text-secondary) !important;
+}
+
+/* Tabbar样式 */
+.tabbar {
+  background: var(--card-bg) !important;
+  border-top: 1px solid var(--border-color) !important;
+}
+
+.tab-item {
+  color: var(--text-tertiary) !important;
+}
+
+.tab-item.active {
+  color: var(--active-bg) !important;
+}
+
+/* 交易卡片样式 */
+.transaction-item {
+  background: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.transaction-type {
+  color: var(--text-secondary) !important;
+}
+
+.transaction-amount {
+  color: var(--text-primary) !important;
+}
+
+/* 账户管理样式 */
+.account-item {
+  background: var(--card-bg) !important;
+  border-bottom: 1px solid var(--border-color) !important;
+}
+
+.account-name {
+  color: var(--text-primary) !important;
+}
+
+.account-balance {
+  color: var(--text-primary) !important;
+}
+
+/* 快速操作卡片 */
+.quick-action-card {
+  background: var(--card-bg) !important;
+  box-shadow: 0 2px 8px var(--shadow-color) !important;
+}
+
+.quick-action-title {
+  color: var(--text-primary) !important;
+}
+
+/* 财务概览卡片 */
+.financial-overview {
+  background: var(--card-bg) !important;
+}
+
+.overview-item h3 {
+  color: var(--text-secondary) !important;
+}
+
+.overview-item .amount {
+  color: var(--text-primary) !important;
+}
+
+/* 模态框背景 */
+.modal-backdrop {
+  background: rgba(0, 0, 0, 0.5) !important;
+}
+
+[data-theme="dark"] .modal-backdrop {
+  background: rgba(0, 0, 0, 0.7) !important;
+}
+
+/* 计算器样式 */
+.calculator {
+  background: var(--card-bg) !important;
+}
+
+.calculator-display {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.calculator-button {
+  background: var(--card-bg) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color) !important;
+}
+
+.calculator-button:hover {
+  background: var(--hover-bg) !important;
+}
+
+.calculator-button.operator {
+  background: var(--active-bg) !important;
+  color: white !important;
+}
+
+.calculator-button.equals {
+  background: var(--success-color) !important;
+  color: white !important;
+}
+
+/* SVG图标样式 */
+[data-theme="dark"] svg {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .icon {
+  fill: #ffffff !important;
+  color: #ffffff !important;
+}
+
+/* 确保所有图标在深色模式下为白色 */
+[data-theme="dark"] .tab-item svg,
+[data-theme="dark"] .back-btn svg,
+[data-theme="dark"] .settings-btn svg,
+[data-theme="dark"] .action-btn svg {
+  fill: #ffffff !important;
+  stroke: #ffffff !important;
+}
+
+/* 返回按钮样式 */
+[data-theme="dark"] .back-btn {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .back-btn .back-icon {
+  color: #ffffff !important;
+}
+
+/* 顶部栏样式 */
+[data-theme="dark"] .top-bar {
+  background: var(--top-bar-bg) !important;
+}
+
+[data-theme="dark"] .top-bar .back-btn {
+  color: #ffffff !important;
+}
+
+[data-theme="dark"] .top-bar .back-icon {
+  color: #ffffff !important;
+}
+
+/* Tabbar图标样式 */
+[data-theme="dark"] .tabbar .tab-item {
+  color: #b0b0b0 !important;
+}
+
+[data-theme="dark"] .tabbar .tab-item.active {
+  color: #0056b3 !important;
+}
+
+[data-theme="dark"] .tabbar .tab-item svg {
+  fill: currentColor !important;
+}

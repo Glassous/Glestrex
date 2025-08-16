@@ -1,0 +1,645 @@
+{
+  "version": "1.0",
+  "exportDate": "2025-08-16T12:00:00.000Z",
+  "language": "zh-CN",
+  "data": {
+    "accounts": [
+      {
+        "id": 1,
+        "name": "招商银行储蓄卡",
+        "type": "cash",
+        "unit": "CNY",
+        "precision": 2,
+        "includeInNetWorth": true,
+        "archived": false,
+        "balance": 15680.50,
+        "createdAt": "2025-06-15T08:00:00.000Z"
+      },
+      {
+        "id": 2,
+        "name": "支付宝余额",
+        "type": "virtual",
+        "unit": "CNY",
+        "precision": 2,
+        "includeInNetWorth": true,
+        "archived": false,
+        "balance": 2340.80,
+        "createdAt": "2025-06-15T08:30:00.000Z"
+      },
+      {
+        "id": 3,
+        "name": "微信零钱",
+        "type": "virtual",
+        "unit": "CNY",
+        "precision": 2,
+        "includeInNetWorth": true,
+        "archived": false,
+        "balance": 856.20,
+        "createdAt": "2025-06-15T09:00:00.000Z"
+      },
+      {
+        "id": 4,
+        "name": "现金钱包",
+        "type": "cash",
+        "unit": "CNY",
+        "precision": 2,
+        "includeInNetWorth": true,
+        "archived": false,
+        "balance": 1200.00,
+        "createdAt": "2025-06-15T09:30:00.000Z"
+      },
+      {
+        "id": 5,
+        "name": "信用卡账单",
+        "type": "loan",
+        "unit": "CNY",
+        "precision": 2,
+        "includeInNetWorth": false,
+        "archived": false,
+        "balance": -3240.60,
+        "createdAt": "2025-06-15T10:00:00.000Z"
+      }
+    ],
+    "categories": [
+      { "id": 1, "name": "工资", "type": "income", "icon": "💰" },
+      { "id": 2, "name": "奖金", "type": "income", "icon": "🎁" },
+      { "id": 3, "name": "投资收益", "type": "income", "icon": "📈" },
+      { "id": 4, "name": "其他收入", "type": "income", "icon": "💵" },
+      { "id": 5, "name": "餐饮", "type": "expense", "icon": "🍽️" },
+      { "id": 6, "name": "交通", "type": "expense", "icon": "🚗" },
+      { "id": 7, "name": "购物", "type": "expense", "icon": "🛍️" },
+      { "id": 8, "name": "娱乐", "type": "expense", "icon": "🎮" },
+      { "id": 9, "name": "医疗", "type": "expense", "icon": "🏥" },
+      { "id": 10, "name": "教育", "type": "expense", "icon": "📚" },
+      { "id": 11, "name": "住房", "type": "expense", "icon": "🏠" },
+      { "id": 12, "name": "其他支出", "type": "expense", "icon": "💸" }
+    ],
+    "transactions": [
+      {
+        "id": 1,
+        "date": "2025-07-01",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 1,
+        "amount": 8500.00,
+        "description": "7月工资",
+        "createdAt": "2025-07-01T09:00:00.000Z"
+      },
+      {
+        "id": 2,
+        "date": "2025-07-01",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 45.80,
+        "description": "午餐",
+        "createdAt": "2025-07-01T12:30:00.000Z"
+      },
+      {
+        "id": 3,
+        "date": "2025-07-01",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 6,
+        "amount": 12.00,
+        "description": "地铁费",
+        "createdAt": "2025-07-01T18:00:00.000Z"
+      },
+      {
+        "id": 4,
+        "date": "2025-07-02",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 7,
+        "amount": 299.00,
+        "description": "购买衣服",
+        "createdAt": "2025-07-02T14:20:00.000Z"
+      },
+      {
+        "id": 5,
+        "date": "2025-07-02",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 68.50,
+        "description": "晚餐聚会",
+        "createdAt": "2025-07-02T19:30:00.000Z"
+      },
+      {
+        "id": 6,
+        "date": "2025-07-03",
+        "type": "transfer",
+        "accountId": 1,
+        "peerAccountId": 2,
+        "amount": 500.00,
+        "description": "银行卡转支付宝",
+        "createdAt": "2025-07-03T10:15:00.000Z"
+      },
+      {
+        "id": 7,
+        "date": "2025-07-03",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 5,
+        "amount": 25.00,
+        "description": "早餐",
+        "createdAt": "2025-07-03T08:30:00.000Z"
+      },
+      {
+        "id": 8,
+        "date": "2025-07-04",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 8,
+        "amount": 120.00,
+        "description": "电影票",
+        "createdAt": "2025-07-04T20:00:00.000Z"
+      },
+      {
+        "id": 9,
+        "date": "2025-07-05",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 3,
+        "amount": 150.00,
+        "description": "基金分红",
+        "createdAt": "2025-07-05T11:00:00.000Z"
+      },
+      {
+        "id": 10,
+        "date": "2025-07-05",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 11,
+        "amount": 2800.00,
+        "description": "房租",
+        "createdAt": "2025-07-05T16:00:00.000Z"
+      },
+      {
+        "id": 11,
+        "date": "2025-07-06",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 5,
+        "amount": 32.50,
+        "description": "外卖",
+        "createdAt": "2025-07-06T12:00:00.000Z"
+      },
+      {
+        "id": 12,
+        "date": "2025-07-07",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 7,
+        "amount": 89.90,
+        "description": "日用品",
+        "createdAt": "2025-07-07T15:30:00.000Z"
+      },
+      {
+        "id": 13,
+        "date": "2025-07-08",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 6,
+        "amount": 45.00,
+        "description": "打车费",
+        "createdAt": "2025-07-08T09:20:00.000Z"
+      },
+      {
+        "id": 14,
+        "date": "2025-07-09",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 78.80,
+        "description": "聚餐",
+        "createdAt": "2025-07-09T19:00:00.000Z"
+      },
+      {
+        "id": 15,
+        "date": "2025-07-10",
+        "type": "income",
+        "accountId": 2,
+        "categoryId": 4,
+        "amount": 200.00,
+        "description": "朋友还款",
+        "createdAt": "2025-07-10T14:00:00.000Z"
+      },
+      {
+        "id": 16,
+        "date": "2025-07-11",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 7,
+        "amount": 450.00,
+        "description": "购买电子产品",
+        "createdAt": "2025-07-11T16:45:00.000Z"
+      },
+      {
+        "id": 17,
+        "date": "2025-07-12",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 5,
+        "amount": 35.00,
+        "description": "午餐",
+        "createdAt": "2025-07-12T12:30:00.000Z"
+      },
+      {
+        "id": 18,
+        "date": "2025-07-13",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 8,
+        "amount": 95.00,
+        "description": "KTV",
+        "createdAt": "2025-07-13T21:00:00.000Z"
+      },
+      {
+        "id": 19,
+        "date": "2025-07-14",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 6,
+        "amount": 28.00,
+        "description": "公交地铁",
+        "createdAt": "2025-07-14T17:30:00.000Z"
+      },
+      {
+        "id": 20,
+        "date": "2025-07-15",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 2,
+        "amount": 1000.00,
+        "description": "季度奖金",
+        "createdAt": "2025-07-15T10:00:00.000Z"
+      },
+      {
+        "id": 21,
+        "date": "2025-07-16",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 9,
+        "amount": 180.00,
+        "description": "体检费用",
+        "createdAt": "2025-07-16T14:30:00.000Z"
+      },
+      {
+        "id": 22,
+        "date": "2025-07-17",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 42.50,
+        "description": "晚餐",
+        "createdAt": "2025-07-17T19:15:00.000Z"
+      },
+      {
+        "id": 23,
+        "date": "2025-07-18",
+        "type": "transfer",
+        "accountId": 2,
+        "peerAccountId": 3,
+        "amount": 300.00,
+        "description": "支付宝转微信",
+        "createdAt": "2025-07-18T11:20:00.000Z"
+      },
+      {
+        "id": 24,
+        "date": "2025-07-19",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 7,
+        "amount": 199.00,
+        "description": "购买书籍",
+        "createdAt": "2025-07-19T15:00:00.000Z"
+      },
+      {
+        "id": 25,
+        "date": "2025-07-20",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 5,
+        "amount": 55.80,
+        "description": "聚餐",
+        "createdAt": "2025-07-20T18:30:00.000Z"
+      },
+      {
+        "id": 26,
+        "date": "2025-07-21",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 6,
+        "amount": 15.00,
+        "description": "停车费",
+        "createdAt": "2025-07-21T10:45:00.000Z"
+      },
+      {
+        "id": 27,
+        "date": "2025-07-22",
+        "type": "income",
+        "accountId": 2,
+        "categoryId": 4,
+        "amount": 80.00,
+        "description": "退款",
+        "createdAt": "2025-07-22T13:20:00.000Z"
+      },
+      {
+        "id": 28,
+        "date": "2025-07-23",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 8,
+        "amount": 150.00,
+        "description": "游戏充值",
+        "createdAt": "2025-07-23T20:00:00.000Z"
+      },
+      {
+        "id": 29,
+        "date": "2025-07-24",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 38.50,
+        "description": "早餐+午餐",
+        "createdAt": "2025-07-24T13:00:00.000Z"
+      },
+      {
+        "id": 30,
+        "date": "2025-07-25",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 12,
+        "amount": 120.00,
+        "description": "理发",
+        "createdAt": "2025-07-25T16:30:00.000Z"
+      },
+      {
+        "id": 31,
+        "date": "2025-07-26",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 6,
+        "amount": 22.00,
+        "description": "地铁费",
+        "createdAt": "2025-07-26T08:15:00.000Z"
+      },
+      {
+        "id": 32,
+        "date": "2025-07-27",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 7,
+        "amount": 320.00,
+        "description": "购买运动鞋",
+        "createdAt": "2025-07-27T14:45:00.000Z"
+      },
+      {
+        "id": 33,
+        "date": "2025-07-28",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 5,
+        "amount": 48.00,
+        "description": "周末聚餐",
+        "createdAt": "2025-07-28T19:00:00.000Z"
+      },
+      {
+        "id": 34,
+        "date": "2025-07-29",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 3,
+        "amount": 85.50,
+        "description": "股票分红",
+        "createdAt": "2025-07-29T11:30:00.000Z"
+      },
+      {
+        "id": 35,
+        "date": "2025-07-30",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 8,
+        "amount": 180.00,
+        "description": "演唱会门票",
+        "createdAt": "2025-07-30T15:20:00.000Z"
+      },
+      {
+        "id": 36,
+        "date": "2025-07-31",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 7,
+        "amount": 89.90,
+        "description": "月末购物",
+        "createdAt": "2025-07-31T17:00:00.000Z"
+      },
+      {
+        "id": 37,
+        "date": "2025-08-01",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 1,
+        "amount": 8500.00,
+        "description": "8月工资",
+        "createdAt": "2025-08-01T09:00:00.000Z"
+      },
+      {
+        "id": 38,
+        "date": "2025-08-01",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 52.80,
+        "description": "庆祝午餐",
+        "createdAt": "2025-08-01T12:30:00.000Z"
+      },
+      {
+        "id": 39,
+        "date": "2025-08-02",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 11,
+        "amount": 2800.00,
+        "description": "8月房租",
+        "createdAt": "2025-08-02T10:00:00.000Z"
+      },
+      {
+        "id": 40,
+        "date": "2025-08-02",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 6,
+        "amount": 18.00,
+        "description": "公交费",
+        "createdAt": "2025-08-02T18:30:00.000Z"
+      },
+      {
+        "id": 41,
+        "date": "2025-08-03",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 7,
+        "amount": 156.00,
+        "description": "购买护肤品",
+        "createdAt": "2025-08-03T14:15:00.000Z"
+      },
+      {
+        "id": 42,
+        "date": "2025-08-04",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 5,
+        "amount": 65.50,
+        "description": "周末聚餐",
+        "createdAt": "2025-08-04T19:30:00.000Z"
+      },
+      {
+        "id": 43,
+        "date": "2025-08-05",
+        "type": "transfer",
+        "accountId": 1,
+        "peerAccountId": 4,
+        "amount": 800.00,
+        "description": "银行卡取现金",
+        "createdAt": "2025-08-05T11:00:00.000Z"
+      },
+      {
+        "id": 44,
+        "date": "2025-08-06",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 8,
+        "amount": 98.00,
+        "description": "密室逃脱",
+        "createdAt": "2025-08-06T20:15:00.000Z"
+      },
+      {
+        "id": 45,
+        "date": "2025-08-07",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 9,
+        "amount": 220.00,
+        "description": "看牙医",
+        "createdAt": "2025-08-07T15:30:00.000Z"
+      },
+      {
+        "id": 46,
+        "date": "2025-08-08",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 5,
+        "amount": 43.20,
+        "description": "外卖晚餐",
+        "createdAt": "2025-08-08T19:00:00.000Z"
+      },
+      {
+        "id": 47,
+        "date": "2025-08-09",
+        "type": "income",
+        "accountId": 2,
+        "categoryId": 4,
+        "amount": 120.00,
+        "description": "二手物品出售",
+        "createdAt": "2025-08-09T16:45:00.000Z"
+      },
+      {
+        "id": 48,
+        "date": "2025-08-10",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 7,
+        "amount": 380.00,
+        "description": "购买家居用品",
+        "createdAt": "2025-08-10T13:20:00.000Z"
+      },
+      {
+        "id": 49,
+        "date": "2025-08-11",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 6,
+        "amount": 35.00,
+        "description": "打车费",
+        "createdAt": "2025-08-11T09:30:00.000Z"
+      },
+      {
+        "id": 50,
+        "date": "2025-08-12",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 5,
+        "amount": 78.90,
+        "description": "朋友聚餐",
+        "createdAt": "2025-08-12T18:45:00.000Z"
+      },
+      {
+        "id": 51,
+        "date": "2025-08-13",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 10,
+        "amount": 450.00,
+        "description": "在线课程费用",
+        "createdAt": "2025-08-13T14:00:00.000Z"
+      },
+      {
+        "id": 52,
+        "date": "2025-08-14",
+        "type": "expense",
+        "accountId": 3,
+        "categoryId": 8,
+        "amount": 125.00,
+        "description": "桌游聚会",
+        "createdAt": "2025-08-14T21:00:00.000Z"
+      },
+      {
+        "id": 53,
+        "date": "2025-08-15",
+        "type": "income",
+        "accountId": 1,
+        "categoryId": 3,
+        "amount": 95.80,
+        "description": "理财产品收益",
+        "createdAt": "2025-08-15T10:30:00.000Z"
+      },
+      {
+        "id": 54,
+        "date": "2025-08-15",
+        "type": "expense",
+        "accountId": 2,
+        "categoryId": 7,
+        "amount": 268.00,
+        "description": "购买电子配件",
+        "createdAt": "2025-08-15T16:20:00.000Z"
+      },
+      {
+        "id": 55,
+        "date": "2025-08-16",
+        "type": "expense",
+        "accountId": 4,
+        "categoryId": 5,
+        "amount": 42.50,
+        "description": "早餐+咖啡",
+        "createdAt": "2025-08-16T09:15:00.000Z"
+      },
+      {
+        "id": 56,
+        "date": "2025-08-16",
+        "type": "expense",
+        "accountId": 1,
+        "categoryId": 12,
+        "amount": 89.00,
+        "description": "日常杂费",
+        "createdAt": "2025-08-16T11:45:00.000Z"
+      }
+    ]
+  },
+  "metadata": {
+    "totalAccounts": 5,
+    "totalTransactions": 56,
+    "totalCategories": 12
+  }
+}
