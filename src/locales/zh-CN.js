@@ -394,5 +394,98 @@ export default {
       fri: '五',
       sat: '六'
     }
+  },
+
+  // 新手引导
+  onboarding: {
+    welcome: '欢迎使用 Glestrex',
+    chooseLanguage: '选择语言',
+    skipGuide: '跳过引导',
+    continue: '继续',
+    back: '返回',
+    startUsing: '开始使用',
+    createAccount: '创建您的第一个账户',
+    setupCategories: '设置常用分类',
+    setupComplete: '设置完成！',
+    
+    // 功能介绍
+    features: {
+      title: '功能介绍',
+      accountManagement: {
+        title: '账户管理',
+        description: '创建和管理多个账户，支持不同货币类型'
+      },
+      transactionRecord: {
+        title: '交易记录',
+        description: '记录收入和支出，自动分类统计'
+      },
+      dataAnalysis: {
+        title: '数据分析',
+        description: '查看详细的财务报表和趋势分析'
+      },
+      dataSecurity: {
+        title: '数据安全',
+        description: '本地存储，支持数据导入导出备份'
+      }
+    },
+    
+    // 使用方法
+    usage: {
+      title: '使用方法',
+      step1: '首先创建您的第一个账户',
+      step2: '设置常用的收支分类',
+      step3: '开始记录您的收入和支出',
+      step4: '查看统计报表分析财务状况'
+    },
+    
+    // 账户创建
+    account: {
+      name: '账户名称',
+      namePlaceholder: '例如：现金、银行卡、支付宝',
+      type: '账户类型',
+      types: {
+        cash: '现金',
+        loan: '贷款',
+        virtual: '虚拟'
+      },
+      initialBalance: '初始余额',
+      currency: '货币',
+      currencies: {
+        cny: '人民币 (CNY)',
+        usd: '美元 (USD)',
+        eur: '欧元 (EUR)',
+        jpy: '日元 (JPY)'
+      },
+      createButton: '创建账户',
+      skip: '跳过'
+    },
+    
+    // 分类设置
+    categories: {
+      description: '选择您常用的收支分类，也可以稍后在设置中添加更多分类',
+      expense: '支出分类',
+      income: '收入分类',
+      complete: '完成设置'
+    },
+    
+    // 完成页面
+    completion: {
+      congratulations: '恭喜您完成了初始设置',
+      description: '现在您可以开始使用 Glestrex 管理您的财务了',
+      tips: {
+        title: '快速提示',
+        tip1: '点击首页的 "+" 按钮可以快速添加交易记录',
+        tip2: '在账户管理页面可以查看和编辑所有账户',
+        tip3: '详情页面提供了详细的财务分析和统计',
+        tip4: '在设置页面可以导出数据进行备份'
+      },
+      startButton: '开始使用'
+    },
+    
+    // 消息提示
+    messages: {
+      accountCreateFailed: '创建账户失败，请重试',
+      categoryCreateFailed: '创建分类失败，请重试'
+    }
   }
 }

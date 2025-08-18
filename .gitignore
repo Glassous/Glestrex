@@ -82,6 +82,43 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# Capacitor
+.capacitor/
+capacitor.config.json.bak
+
+# Android
+android/app/build/
+android/app/release/
+android/app/debug/
+android/build/
+android/.gradle/
+android/gradle/
+android/gradlew
+android/gradlew.bat
+android/local.properties
+android/app/src/main/assets/public/
+android/app/src/main/assets/capacitor.config.json
+android/capacitor-cordova-android-plugins/
+android/.idea/
+android/*.iml
+android/app/google-services.json
+android/app/src/main/res/values/strings.xml
+
+# iOS (for future use)
+ios/App/build/
+ios/App/Pods/
+ios/App/public/
+ios/App/capacitor.config.json
+ios/App/Podfile.lock
+ios/.DS_Store
+ios/App/.DS_Store
+ios/App/App.xcworkspace/xcuserdata/
+ios/App/App.xcodeproj/xcuserdata/
+ios/App/App.xcodeproj/project.xcworkspace/xcuserdata/
+
+# Capacitor plugins
+.capacitor-plugins/
+
 # parcel-bundler cache
 .cache
 .parcel-cache

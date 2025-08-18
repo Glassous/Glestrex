@@ -398,5 +398,98 @@ export default {
       fri: 'Fri',
       sat: 'Sat'
     }
+  },
+
+  // Onboarding Guide
+  onboarding: {
+    welcome: 'Welcome to Glestrex',
+    chooseLanguage: 'Choose Language',
+    skipGuide: 'Skip Guide',
+    continue: 'Continue',
+    back: 'Back',
+    startUsing: 'Start Using',
+    createAccount: 'Create Your First Account',
+    setupCategories: 'Setup Common Categories',
+    setupComplete: 'Setup Complete!',
+    
+    // Features Introduction
+    features: {
+      title: 'Features Introduction',
+      accountManagement: {
+        title: 'Account Management',
+        description: 'Create and manage multiple accounts with different currency types'
+      },
+      transactionRecord: {
+        title: 'Transaction Records',
+        description: 'Record income and expenses with automatic categorization'
+      },
+      dataAnalysis: {
+        title: 'Data Analysis',
+        description: 'View detailed financial reports and trend analysis'
+      },
+      dataSecurity: {
+        title: 'Data Security',
+        description: 'Local storage with data import/export backup support'
+      }
+    },
+    
+    // Usage Instructions
+    usage: {
+      title: 'How to Use',
+      step1: 'First, create your first account',
+      step2: 'Set up common income and expense categories',
+      step3: 'Start recording your income and expenses',
+      step4: 'View statistical reports to analyze your financial status'
+    },
+    
+    // Account Creation
+    account: {
+      name: 'Account Name',
+      namePlaceholder: 'e.g.: Cash, Bank Card, Alipay',
+      type: 'Account Type',
+      types: {
+        cash: 'Cash',
+        loan: 'Loan',
+        virtual: 'Virtual'
+      },
+      initialBalance: 'Initial Balance',
+      currency: 'Currency',
+      currencies: {
+        cny: 'Chinese Yuan (CNY)',
+        usd: 'US Dollar (USD)',
+        eur: 'Euro (EUR)',
+        jpy: 'Japanese Yen (JPY)'
+      },
+      createButton: 'Create Account',
+      skip: 'Skip'
+    },
+    
+    // Category Setup
+    categories: {
+      description: 'Select your commonly used income and expense categories. You can add more categories later in settings',
+      expense: 'Expense Categories',
+      income: 'Income Categories',
+      complete: 'Complete Setup'
+    },
+    
+    // Completion Page
+    completion: {
+      congratulations: 'Congratulations! You have completed the initial setup',
+      description: 'Now you can start using Glestrex to manage your finances',
+      tips: {
+        title: 'Quick Tips',
+        tip1: 'Click the "+" button on the home page to quickly add transaction records',
+        tip2: 'View and edit all accounts in the Account Management page',
+        tip3: 'The Details page provides detailed financial analysis and statistics',
+        tip4: 'Export data for backup in the Settings page'
+      },
+      startButton: 'Start Using'
+    },
+    
+    // Messages
+    messages: {
+      accountCreateFailed: 'Failed to create account, please try again',
+      categoryCreateFailed: 'Failed to create category, please try again'
+    }
   }
 }

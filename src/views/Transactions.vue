@@ -2,10 +2,56 @@
   <!-- 固定顶部栏 -->
   <div class="top-bar">
     <h1 class="page-title">{{ $t('nav.transactions') }}</h1>
+  </div>
+  
+  <!-- 按钮区域 -->
+  <div class="action-buttons-section">
     <div class="action-buttons">
-      <BaseButton @click="downloadAllTransactions" variant="secondary" class="download-btn">{{ $t('transactions.download') }}</BaseButton>
-      <BaseButton @click="copyAllTransactions" variant="secondary" class="copy-btn">{{ $t('transactions.copy') }}</BaseButton>
-      <BaseButton @click="openForm" variant="primary" class="add-transaction-btn">{{ $t('transactions.addTransaction') }}</BaseButton>
+      <button class="button download-btn" type="button" @click="downloadAllTransactions">
+        <span class="button__text">{{ $t('transactions.download') }}</span>
+        <span class="button__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 35" id="bdd05811-e15d-428c-bb53-8661459f9307" data-name="Layer 2" class="svg">
+            <path d="M17.5,22.131a1.249,1.249,0,0,1-1.25-1.25V2.187a1.25,1.25,0,0,1,2.5,0V20.881A1.25,1.25,0,0,1,17.5,22.131Z"></path>
+            <path d="M17.5,22.693a3.189,3.189,0,0,1-2.262-.936L8.487,15.006a1.249,1.249,0,0,1,1.767-1.767l6.751,6.751a.7.7,0,0,0,.99,0l6.751-6.751a1.25,1.25,0,0,1,1.768,1.767l-6.752,6.751A3.191,3.191,0,0,1,17.5,22.693Z"></path>
+            <path d="M31.436,34.063H3.564A3.318,3.318,0,0,1,.25,30.749V22.011a1.25,1.25,0,0,1,2.5,0v8.738a.815.815,0,0,0,.814.814H31.436a.815.815,0,0,0,.814-.814V22.011a1.25,1.25,0,1,1,2.5,0v8.738A3.318,3.318,0,0,1,31.436,34.063Z"></path>
+          </svg>
+        </span>
+      </button>
+      <button class="button copy-btn" type="button" @click="copyAllTransactions">
+        <span class="button__text">{{ $t('transactions.copy') }}</span>
+        <span class="button__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+            <path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/>
+          </svg>
+        </span>
+      </button>
+      <button class="button add-transaction-btn" type="button" @click="openForm">
+        <span class="button__text">{{ $t('transactions.addTransaction') }}</span>
+        <span class="button__icon">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="svg">
+            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
+          </svg>
+        </span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 个性化通知弹窗 -->
+  <div v-if="showNotification" class="notification-popup" :class="`notification-${notificationData.type}`">
+    <div class="notification-content">
+      <div class="notification-icon">
+        <svg v-if="notificationData.type === 'success'" viewBox="0 0 24 24" class="icon-success">
+          <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+        </svg>
+        <svg v-else-if="notificationData.type === 'error'" viewBox="0 0 24 24" class="icon-error">
+          <path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/>
+        </svg>
+      </div>
+      <div class="notification-text">
+        <h3>{{ notificationData.title }}</h3>
+        <p>{{ notificationData.message }}</p>
+      </div>
+      <button @click="showNotification = false" class="notification-close">×</button>
     </div>
   </div>
   
@@ -72,8 +118,8 @@
       </div>
     </div>
   
-  <!-- 交易创建表单弹窗 -->
-  <div v-if="showForm" class="transaction-form-modal">
+    <!-- 交易创建表单弹窗 -->
+    <div v-if="showForm" class="transaction-form-modal">
       <div class="modal-backdrop" @click="cancelForm"></div>
       <div class="modal-content">
         <div class="modal-header">
@@ -86,45 +132,45 @@
         </div>
         
         <form @submit.prevent="submitTransaction">
-        <!-- 交易类型选择 -->
-        <FormSelect
-          v-model="form.type"
-          :label="$t('transactions.type.title')"
-          :placeholder="$t('transactions.form.selectType')"
-          :options="transactionTypes.map(type => ({
-            value: type.value,
-            label: type.label
-          }))"
-          required
-        />
+          <!-- 交易类型选择 -->
+          <FormSelect
+            v-model="form.type"
+            :label="$t('transactions.type.title')"
+            :placeholder="$t('transactions.form.selectType')"
+            :options="transactionTypes.map(type => ({
+              value: type.value,
+              label: type.label
+            }))"
+            required
+          />
 
-        <!-- 账户选择 -->
-        <FormSelect
-          v-model="form.accountId"
-          :label="$t('transactions.account')"
-          :placeholder="$t('transactions.form.selectAccount')"
-          :options="accounts.map(account => ({
-            value: account.id,
-            label: `${account.name} (${account.unit})`
-          }))"
-          required
-        />
+          <!-- 账户选择 -->
+          <FormSelect
+            v-model="form.accountId"
+            :label="$t('transactions.account')"
+            :placeholder="$t('transactions.form.selectAccount')"
+            :options="accounts.map(account => ({
+              value: account.id,
+              label: `${account.name} (${account.unit})`
+            }))"
+            required
+          />
 
-        <!-- 转账目标账户 -->
-        <FormSelect
-          v-if="form.type === 'transfer'"
-          v-model="form.peerAccountId"
-          :label="$t('transactions.account')"
-          :placeholder="$t('transactions.form.selectAccount')"
-          :options="accounts.filter(account => account.id !== form.accountId).map(account => ({
-            value: account.id,
-            label: `${account.name} (${account.unit})`
-          }))"
-          required
-        />
+          <!-- 转账目标账户 -->
+          <FormSelect
+            v-if="form.type === 'transfer'"
+            v-model="form.peerAccountId"
+            :label="$t('transactions.account')"
+            :placeholder="$t('transactions.form.selectAccount')"
+            :options="accounts.filter(account => account.id !== form.accountId).map(account => ({
+              value: account.id,
+              label: `${account.name} (${account.unit})`
+            }))"
+            required
+          />
 
-        <!-- 金额输入 -->
-         <FormInputWithCalculator
+          <!-- 金额输入 -->
+          <FormInputWithCalculator
             v-model="form.amount"
             :label="$t('transactions.amount')"
             type="number"
@@ -135,33 +181,33 @@
             required
           />
 
-        <!-- 分类选择 -->
-        <FormSelect
-          v-if="form.type !== 'transfer' && form.type !== 'adjust'"
-          v-model="form.categoryId"
-          :label="$t('transactions.category')"
-          :placeholder="$t('transactions.form.selectCategory')"
-          :options="filteredCategories.map(category => ({
-            value: category.id,
-            label: category.name
-          }))"
-        />
+          <!-- 分类选择 -->
+          <FormSelect
+            v-if="form.type !== 'transfer' && form.type !== 'adjust'"
+            v-model="form.categoryId"
+            :label="$t('transactions.category')"
+            :placeholder="$t('transactions.form.selectCategory')"
+            :options="filteredCategories.map(category => ({
+              value: category.id,
+              label: category.name
+            }))"
+          />
 
-        <!-- 日期选择 -->
-        <FormInput
-          v-model="form.date"
-          :label="$t('transactions.date')"
-          type="date"
-          required
-        />
+          <!-- 日期选择 -->
+          <FormInput
+            v-model="form.date"
+            :label="$t('transactions.date')"
+            type="date"
+            required
+          />
 
-        <!-- 描述 -->
-        <FormTextarea
-          v-model="form.description"
-          :label="$t('transactions.description')"
-          :placeholder="$t('transactions.form.enterDescription')"
-          :rows="3"
-        />
+          <!-- 描述 -->
+          <FormTextarea
+            v-model="form.description"
+            :label="$t('transactions.description')"
+            :placeholder="$t('transactions.form.enterDescription')"
+            :rows="3"
+          />
 
           <!-- 提交按钮 -->
           <div class="form-actions">
@@ -173,8 +219,8 @@
       </div>
     </div>
   
-  <!-- 交易记录 -->
-  <div class="recent-transactions">
+    <!-- 交易记录 -->
+    <div class="recent-transactions">
       <h2>{{ $t('transactions.allTransactions') }}</h2>
       
       <!-- 按日期分组的交易列表 -->
@@ -256,6 +302,15 @@ const accounts = ref([])
 const categories = ref([])
 const recentTransactions = ref([])
 const editingTransaction = ref(null)
+
+// 弹窗状态
+const showNotification = ref(false)
+const notificationData = ref({
+  type: 'success', // 'success', 'error', 'info'
+  title: '',
+  message: '',
+  icon: ''
+})
 
 // 筛选器数据
 const filters = reactive({
@@ -355,6 +410,17 @@ const groupedTransactions = computed(() => {
     }))
 })
 
+// 显示通知弹窗
+const showNotificationPopup = (type, title, message) => {
+  notificationData.value = { type, title, message }
+  showNotification.value = true
+  
+  // 3秒后自动关闭
+  setTimeout(() => {
+    showNotification.value = false
+  }, 3000)
+}
+
 // 方法
 const selectType = (type) => {
   form.type = type
@@ -387,7 +453,7 @@ const submitTransaction = async () => {
         categoryId: form.categoryId ? parseInt(form.categoryId) : null,
       };
       await transactionService.updateTransaction(transactionData);
-      alert($t('common.messages.transactionUpdated'));
+      showNotificationPopup('success', '成功', $t('common.messages.transactionUpdated'));
     } else {
       // 添加新交易
       const transactionData = {
@@ -396,7 +462,7 @@ const submitTransaction = async () => {
         categoryId: form.categoryId ? parseInt(form.categoryId) : null,
       };
       await transactionService.addTransaction(transactionData);
-      alert($t('common.messages.transactionSaved'));
+      showNotificationPopup('success', '成功', $t('common.messages.transactionSaved'));
     }
     
     showForm.value = false;
@@ -405,7 +471,7 @@ const submitTransaction = async () => {
     eventBus.emit(EVENTS.FORM_HIDE);
   } catch (error) {
     console.error('保存交易失败:', error);
-    alert($t('common.messages.transactionSaveFailed'));
+    showNotificationPopup('error', '错误', $t('common.messages.transactionSaveFailed'));
   }
 };
 
@@ -457,11 +523,11 @@ const confirmDelete = (id) => {
 const deleteTransaction = async (id) => {
   try {
     await transactionService.deleteTransaction(id)
-    alert($t('common.messages.transactionDeleted'))
+    showNotificationPopup('success', '成功', $t('common.messages.transactionDeleted'))
     loadRecentTransactions()
   } catch (error) {
     console.error('删除交易失败:', error)
-    alert($t('common.messages.transactionDeleteFailed'))
+    showNotificationPopup('error', '错误', $t('common.messages.transactionDeleteFailed'))
   }
 }
 
@@ -554,10 +620,10 @@ const downloadAllTransactions = async () => {
     document.body.removeChild(link)
     URL.revokeObjectURL(url)
     
-    alert($t('transactions.messages.downloadSuccess'))
+    showNotificationPopup('success', '下载成功', '交易记录已成功下载到您的设备')
   } catch (error) {
     console.error('下载交易记录失败:', error)
-    alert($t('transactions.messages.downloadFailed'))
+    showNotificationPopup('error', '下载失败', '下载交易记录时发生错误，请重试')
   }
 }
 
@@ -568,10 +634,10 @@ const copyAllTransactions = async () => {
     const text = generateTransactionsText(allTransactions)
     
     await navigator.clipboard.writeText(text)
-    alert($t('transactions.messages.copySuccess'))
+    showNotificationPopup('success', '复制成功', '交易记录已复制到剪贴板')
   } catch (error) {
     console.error('复制交易记录失败:', error)
-    alert($t('transactions.messages.copyFailed'))
+    showNotificationPopup('error', '复制失败', '复制交易记录时发生错误，请重试')
   }
 }
 
@@ -694,7 +760,7 @@ onMounted(() => {
   top: 0;
   left: 0;
   right: 0;
-  height: 100px;
+  height: 60px;
   background: rgba(250, 250, 250, 0.8);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
@@ -702,9 +768,9 @@ onMounted(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding: 0 24px;
-  padding-top: 52px;
+  padding-top: 12px;
   z-index: 1000;
 }
 
@@ -716,88 +782,232 @@ onMounted(() => {
   text-align: center;
 }
 
-.app-logo {
-  height: 40px;
-  width: auto;
+/* 按钮区域 */
+.action-buttons-section {
+  position: fixed;
+  top: 60px;
+  left: 0;
+  right: 0;
+  background: transparent;
+  padding: 8px 24px;
+  z-index: 999;
+  display: flex;
+  justify-content: center;
 }
 
 .action-buttons {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-left: auto;
 }
 
-.download-btn, .copy-btn {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 12px !important;
-  padding: 12px 20px !important;
-  font-weight: 600 !important;
-  font-size: 14px !important;
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+/* 新的下载按钮样式 */
+.button {
+  --main-focus: #2d8cf0;
+  --font-color: #323232;
+  --bg-color-sub: #dedede;
+  --bg-color: #eee;
+  --main-color: #323232;
   position: relative;
+  width: 120px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  border: 2px solid var(--main-color);
+  box-shadow: 4px 4px var(--main-color);
+  background-color: var(--bg-color);
+  border-radius: 10px;
   overflow: hidden;
 }
 
-.download-btn:hover, .copy-btn:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%) !important;
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6) !important;
-  transform: translateY(-2px) scale(1.02) !important;
+.button, .button__icon, .button__text {
+  transition: all 0.3s;
 }
 
-.download-btn:active, .copy-btn:active {
-  transform: translateY(0) scale(0.98) !important;
-  box-shadow: 0 2px 10px rgba(102, 126, 234, 0.4) !important;
+.button .button__text {
+  position: absolute;
+  left: 35%;
+  transform: translateX(-50%);
+  color: var(--font-color);
+  font-weight: 600;
+  font-size: 14px;
+  z-index: 2;
 }
 
+.button .button__icon {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 39px;
+  background-color: var(--bg-color-sub);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button .svg {
+  width: 20px;
+  fill: var(--main-color);
+}
+
+.button:hover {
+  background: var(--bg-color);
+}
+
+.button:hover .button__text {
+  color: transparent;
+}
+
+.button:hover .button__icon {
+  width: 100%;
+  transform: translateX(0);
+  right: 0;
+}
+
+.button:active {
+  transform: translate(3px, 3px);
+  box-shadow: 0px 0px var(--main-color);
+}
+
+/* 复制按钮样式 - 蓝色主题 */
+.copy-btn {
+  --main-focus: #2d8cf0;
+  --font-color: #323232;
+  --bg-color-sub: #b3d9ff;
+  --bg-color: #e6f3ff;
+  --main-color: #2d8cf0;
+}
+
+.copy-btn .button__text {
+  left: 40%;
+}
+
+/* 添加交易按钮样式 - 绿色主题 */
 .add-transaction-btn {
-  background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%) !important;
-  color: white !important;
-  border: none !important;
-  border-radius: 12px !important;
-  padding: 14px 28px !important;
-  font-weight: 700 !important;
-  font-size: 15px !important;
-  box-shadow: 0 4px 20px rgba(255, 107, 107, 0.4) !important;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
-  position: relative;
-  overflow: hidden;
+  --main-focus: #52c41a;
+  --font-color: #323232;
+  --bg-color-sub: #b7eb8f;
+  --bg-color: #d9f7be;
+  --main-color: #52c41a;
+  width: 140px;
 }
 
-.add-transaction-btn:hover {
-  background: linear-gradient(135deg, #ff5252 0%, #d63031 100%) !important;
-  box-shadow: 0 8px 30px rgba(255, 107, 107, 0.6) !important;
-  transform: translateY(-3px) scale(1.05) !important;
+.add-transaction-btn .button__text {
+  left: 42%;
+  font-size: 13px;
 }
 
-.add-transaction-btn:active {
-  transform: translateY(-1px) scale(1.02) !important;
-  box-shadow: 0 4px 15px rgba(255, 107, 107, 0.4) !important;
+/* 个性化通知弹窗样式 */
+.notification-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2000;
+  min-width: 320px;
+  max-width: 400px;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  animation: slideInRight 0.3s ease-out;
 }
 
-@media (max-width: 768px) {
-  .action-buttons {
-    gap: 8px;
+.notification-success {
+  background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+  border: 2px solid #28a745;
+}
+
+.notification-error {
+  background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+  border: 2px solid #dc3545;
+}
+
+.notification-content {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  gap: 12px;
+}
+
+.notification-icon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.notification-success .notification-icon {
+  background: #28a745;
+}
+
+.notification-error .notification-icon {
+  background: #dc3545;
+}
+
+.icon-success, .icon-error {
+  width: 16px;
+  height: 16px;
+  fill: white;
+}
+
+.notification-text {
+  flex: 1;
+}
+
+.notification-text h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #333;
+}
+
+.notification-text p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+}
+
+.notification-close {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.notification-close:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
   }
-  
-  .download-btn, .copy-btn {
-    padding: 8px 12px !important;
-    font-size: 12px !important;
-  }
-  
-  .add-transaction-btn {
-    padding: 10px 16px !important;
-    font-size: 14px !important;
+  to {
+    transform: translateX(0);
+    opacity: 1;
   }
 }
 
 /* 页面容器 */
 .transactions-page {
   padding: 24px;
-  padding-top: 120px; /* 为固定顶部栏留出空间 */
+  padding-top: 100px; /* 为固定顶部栏和按钮区域留出空间 */
   padding-bottom: 120px; /* 为底部导航栏留出空间 */
   max-width: 1200px;
   margin: 0 auto;
@@ -868,6 +1078,13 @@ onMounted(() => {
   .date-separator {
     display: none;
   }
+  
+  .notification-popup {
+    top: 10px;
+    right: 10px;
+    left: 10px;
+    min-width: auto;
+  }
 }
 
 .page-header {
@@ -880,159 +1097,6 @@ onMounted(() => {
   font-weight: bold;
   color: var(--text-primary);
   margin: 0;
-}
-
-.transaction-form {
-  background: var(--bg-primary);
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  width: 100%;
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.transaction-types {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 12px;
-  max-width: 100%;
-}
-
-.type-btn {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 16px 12px;
-  border: 2px solid #e1e5e9;
-  border-radius: 8px;
-  background: var(--bg-primary);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.type-btn:hover {
-  border-color: #007bff;
-  background: var(--bg-secondary);
-}
-
-.type-btn.active {
-  border-color: #007bff;
-  background: var(--primary-color);
-  color: #fff;
-}
-
-.type-icon {
-  font-size: 24px;
-  margin-bottom: 4px;
-}
-
-.type-label {
-  font-size: 14px;
-  font-weight: 500;
-}
-
-select, input, textarea {
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 16px;
-  transition: border-color 0.2s;
-}
-
-select:focus, input:focus, textarea:focus {
-  outline: none;
-  border-color: #007bff;
-  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.1);
-}
-
-.amount-input {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.amount-input input {
-  padding-right: 60px;
-}
-
-.currency-unit {
-  position: absolute;
-  right: 12px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  pointer-events: none;
-}
-
-.form-actions {
-  display: flex;
-  gap: 12px;
-  justify-content: flex-end;
-  margin-top: 30px;
-}
-
-/* 通用按钮样式增强 */
-.btn-primary, .btn-secondary {
-  padding: 12px 24px;
-  border: none;
-  border-radius: 10px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-  color: #fff;
-  border: 2px solid transparent;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: linear-gradient(135deg, #43a3f5 0%, #00d4e6 100%);
-  box-shadow: 0 4px 15px rgba(79, 172, 254, 0.4);
-  transform: translateY(-2px);
-}
-
-.btn-primary:active:not(:disabled) {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3);
-}
-
-.btn-primary:disabled {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
-  color: #a0aec0;
-  cursor: not-allowed;
-  box-shadow: none;
-}
-
-.btn-secondary {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: #fff;
-}
-
-.btn-secondary:hover {
-  background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
-  box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-  transform: translateY(-2px);
-}
-
-.btn-secondary:active {
-  transform: translateY(0);
-  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.3);
 }
 
 .recent-transactions {
@@ -1231,31 +1295,6 @@ select:focus, input:focus, textarea:focus {
   gap: 8px;
 }
 
-.date-box {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  background: var(--bg-secondary);
-  border-radius: 6px;
-  padding: 4px 8px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.date-box .month {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-secondary);
-}
-
-.date-box .date {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-
 /* 模态框样式 */
 .transaction-form-modal {
   position: fixed;
@@ -1334,59 +1373,6 @@ form {
   justify-content: flex-end;
   margin-top: 30px;
   padding-top: 20px;
-  border-top: 1px solid #e1e5e9;
-}
-
-/* 计算器在窄屏时上浮样式 */
-@media (max-width: 768px) {
-  .modal-content {
-    width: 95%;
-    margin: 20px;
-    padding-bottom: 100px; /* 为计算器留出空间 */
-  }
-  
-  .transaction-types {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  .form-actions {
-    flex-direction: column;
-  }
-  
-  .btn-primary, .btn-secondary {
-    width: 100%;
-  }
-  
-  /* 计算器上浮样式 */
-  .inline-calculator {
-    position: fixed !important;
-    bottom: 80px !important;
-    left: 10px !important;
-    right: 10px !important;
-    z-index: 2000 !important;
-    margin: 0 !important;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.3) !important;
-    border: 2px solid #007bff !important;
-    background: white !important;
-    border-radius: 12px !important;
-    max-height: 60vh;
-    overflow-y: auto;
-  }
-  
-  /* 计算器按钮美化 */
-  .calculator-btn {
-    background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%) !important;
-    color: white !important;
-    border: none !important;
-    border-radius: 8px !important;
-    box-shadow: 0 2px 8px rgba(79, 172, 254, 0.3) !important;
-    transition: all 0.3s ease !important;
-  }
-  
-  .calculator-btn:hover {
-    background: linear-gradient(135deg, #43a3f5 0%, #00d4e6 100%) !important;
-    box-shadow: 0 4px 12px rgba(79, 172, 254, 0.4) !important;
-    transform: translateY(-50%) scale(1.05) !important;
-  }
+  border-bottom: 1px solid #e1e5e9;
 }
 </style>

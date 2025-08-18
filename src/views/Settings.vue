@@ -3,7 +3,9 @@
     <!-- 固定顶部栏 -->
     <div class="top-bar">
       <button class="back-btn" @click="$router.go(-1)">
-        <span class="back-icon">←</span>
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
       </button>
       <h1 class="page-title">设置</h1>
     </div>
@@ -23,6 +25,7 @@
               :key="option.value"
               class="theme-btn"
               :class="{ active: themeStore.themeMode === option.value }"
+              :data-theme="option.value"
               @click="selectTheme(option.value)"
             >
               <IconComponent :name="option.icon" class="theme-icon" />
@@ -43,7 +46,7 @@
               :class="{ active: languageStore.currentLanguage === lang.code }"
               @click="selectLanguage(lang.code)"
             >
-              <span class="language-flag">{{ lang.flag }}</span>
+              <img :src="getFlagUrl(lang.flagCode)" class="language-flag" :alt="lang.label" />
               <span class="language-label">{{ lang.label }}</span>
             </button>
           </div>
@@ -118,8 +121,8 @@ const selectTheme = (theme) => {
 
 // 可用语言列表
 const availableLanguages = computed(() => [
-  { code: 'zh-CN', label: $t('settings.languageZhCN'), flag: '🇨🇳' },
-  { code: 'en-US', label: $t('settings.languageEnUS'), flag: '🇺🇸' }
+  { code: 'zh-CN', label: $t('settings.languageZhCN'), flagCode: 'cn' },
+  { code: 'en-US', label: $t('settings.languageEnUS'), flagCode: 'us' }
 ])
 
 // 获取当前语言标签
@@ -130,6 +133,17 @@ const getCurrentLanguageLabel = () => {
 // 切换语言选择器显示
 const toggleLanguageSelector = () => {
   showLanguageSelector.value = !showLanguageSelector.value
+}
+
+// 获取国旗URL
+const getFlagUrl = (flagCode) => {
+  try {
+    // 使用本地 src/images/w80 文件夹下的国旗PNG图片
+    return new URL(`../images/w80/${flagCode.toLowerCase()}.png`, import.meta.url).href
+  } catch (error) {
+    console.warn(`Flag not found for ${flagCode}`)
+    return ''
+  }
 }
 
 // 选择语言
@@ -318,25 +332,38 @@ const clearAllData = async () => {
 .back-btn {
   background: none;
   border: none;
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
   position: absolute;
   left: 20px;
+  z-index: 10;
 }
 
 .back-btn:hover {
   background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.back-btn:active {
+  transform: scale(0.95);
 }
 
 .back-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
   color: var(--text-primary);
-  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover .back-icon {
+  color: var(--primary-color);
 }
 
 .page-title {
@@ -433,9 +460,10 @@ const clearAllData = async () => {
 .theme-switcher {
   display: flex;
   padding: 20px;
-  gap: 12px;
+  gap: 16px;
   background: var(--bg-secondary);
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border-color);
+  border-radius: 0 0 12px 12px;
 }
 
 .theme-btn {
@@ -443,71 +471,197 @@ const clearAllData = async () => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 16px 12px;
-  border: 2px solid var(--border-color);
-  border-radius: 12px;
+  gap: 10px;
+  padding: 20px 16px;
+  border: 2px solid transparent;
+  border-radius: 16px;
   background: var(--bg-primary);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-.theme-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  border-color: var(--primary-color);
-}
-
-.theme-btn.active {
-  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
-  border-color: var(--primary-color);
-  color: #fff;
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(var(--primary-rgb), 0.3);
-}
-
-.theme-btn.active::before {
+.theme-btn::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
-  animation: shimmer 2s infinite;
+  background: linear-gradient(135deg, var(--primary-color), var(--primary-hover));
+  opacity: 0;
+  transition: opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 0;
 }
 
-@keyframes shimmer {
-  0% { transform: translateX(-100%); }
-  100% { transform: translateX(100%); }
+.theme-btn::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.3) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 1;
+}
+
+.theme-btn:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border-color: var(--primary-color);
+}
+
+.theme-btn:hover::after {
+  width: 120px;
+  height: 120px;
+}
+
+.theme-btn.active {
+  transform: translateY(-4px) scale(1.02);
+  border-color: var(--primary-color);
+  box-shadow: 0 12px 35px rgba(var(--primary-color), 0.4);
+}
+
+.theme-btn.active::before {
+  opacity: 1;
+}
+
+.theme-btn.active::after {
+  width: 150px;
+  height: 150px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.2) 0%, transparent 70%);
 }
 
 .theme-icon {
-  font-size: 24px;
-  transition: transform 0.3s ease;
+  font-size: 28px;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
+  color: var(--text-primary);
 }
 
 .theme-btn:hover .theme-icon {
-  transform: scale(1.1);
+  transform: scale(1.15) rotate(5deg);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
 }
 
 .theme-btn.active .theme-icon {
-  transform: scale(1.15);
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.2));
+  transform: scale(1.2) rotate(10deg);
+  color: #ffffff;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.3));
 }
 
 .theme-label {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 500;
   text-align: center;
-  transition: color 0.3s ease;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  z-index: 2;
+  color: var(--text-secondary);
+  letter-spacing: 0.5px;
+}
+
+.theme-btn:hover .theme-label {
+  color: var(--text-primary);
+  font-weight: 600;
+  transform: translateY(-1px);
 }
 
 .theme-btn.active .theme-label {
-  color: #fff;
-  font-weight: 600;
+  color: #ffffff;
+  font-weight: 700;
+  transform: translateY(-2px);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* 特殊主题按钮样式 */
+.theme-btn[data-theme="system"] {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.theme-btn[data-theme="system"] .theme-icon,
+.theme-btn[data-theme="system"] .theme-label {
+  color: #495057 !important;
+}
+
+.theme-btn[data-theme="system"]:hover .theme-icon,
+.theme-btn[data-theme="system"]:hover .theme-label {
+  color: #343a40 !important;
+}
+
+.theme-btn[data-theme="system"].active .theme-icon,
+.theme-btn[data-theme="system"].active .theme-label {
+  color: #ffffff !important;
+}
+
+.theme-btn[data-theme="light"] {
+  background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+}
+
+.theme-btn[data-theme="light"] .theme-icon,
+.theme-btn[data-theme="light"] .theme-label {
+  color: #856404 !important;
+}
+
+.theme-btn[data-theme="light"]:hover .theme-icon,
+.theme-btn[data-theme="light"]:hover .theme-label {
+  color: #533f03 !important;
+}
+
+.theme-btn[data-theme="light"].active .theme-icon,
+.theme-btn[data-theme="light"].active .theme-label {
+  color: #ffffff !important;
+}
+
+.theme-btn[data-theme="dark"] {
+  background: linear-gradient(135deg, #495057 0%, #343a40 100%);
+}
+
+.theme-btn[data-theme="dark"] .theme-icon,
+.theme-btn[data-theme="dark"] .theme-label {
+  color: #f8f9fa !important;
+}
+
+.theme-btn[data-theme="system"]:hover,
+.theme-btn[data-theme="system"].active {
+  box-shadow: 0 8px 25px rgba(108, 117, 125, 0.3);
+}
+
+.theme-btn[data-theme="light"]:hover,
+.theme-btn[data-theme="light"].active {
+  box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+}
+
+.theme-btn[data-theme="dark"]:hover,
+.theme-btn[data-theme="dark"].active {
+  box-shadow: 0 8px 25px rgba(52, 58, 64, 0.4);
+}
+
+/* 响应式优化 */
+@media (max-width: 768px) {
+  .theme-switcher {
+    gap: 12px;
+    padding: 16px;
+  }
+  
+  .theme-btn {
+    padding: 16px 12px;
+    gap: 8px;
+  }
+  
+  .theme-icon {
+    font-size: 24px;
+  }
+  
+  .theme-label {
+    font-size: 12px;
+  }
 }
 
 /* 语言选择器样式 */
@@ -548,8 +702,12 @@ const clearAllData = async () => {
 }
 
 .language-flag {
-  font-size: 18px;
+  width: 20px;
+  height: 15px;
   margin-right: 12px;
+  border-radius: 2px;
+  object-fit: cover;
+  border: 1px solid #ddd;
 }
 
 .language-label {

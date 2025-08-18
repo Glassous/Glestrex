@@ -809,11 +809,20 @@ onMounted(() => {
 
 .quick-action-card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.quick-action-card:hover .action-icon {
+  transform: rotate(360deg);
 }
 
 .quick-action-card:active {
   transform: translateY(0);
+  transition: all 0.1s ease;
+}
+
+.quick-action-card:active .action-icon {
+  transform: rotate(180deg);
 }
 
 .action-icon {
@@ -825,6 +834,7 @@ onMounted(() => {
   align-items: center;
   justify-content: center;
   margin-bottom: 8px;
+  transition: transform 0.5s ease;
 }
 
 .income-icon {
@@ -884,6 +894,14 @@ onMounted(() => {
   background: var(--bg-secondary);
 }
 
+.nav-item:hover .nav-icon {
+  transform: scale(1.3);
+}
+
+.nav-item:hover .nav-label {
+  transform: translateY(4px);
+}
+
 .nav-item:active {
   transform: translateY(0);
 }
@@ -891,12 +909,14 @@ onMounted(() => {
 .nav-icon {
   font-size: 24px;
   margin-bottom: 4px;
+  transition: transform 0.3s ease;
 }
 
 .nav-label {
   font-size: 14px;
   font-weight: 500;
   color: var(--text-primary);
+  transition: transform 0.3s ease;
 }
 
 /* 快速表单模态框 */

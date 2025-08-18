@@ -2,7 +2,9 @@
   <div class="account-management-page">
     <div class="top-bar">
       <button class="back-btn" @click="$router.go(-1)">
-        <span class="back-icon">←</span>
+        <svg class="back-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m15 18-6-6 6-6"/>
+        </svg>
       </button>
       <h1 class="page-title">账户管理</h1>
       <BaseButton @click="showCreateForm = true" variant="primary" class="add-account-btn">
@@ -827,37 +829,66 @@ onUnmounted(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  position: relative;
 }
 
 .back-btn {
   background: none;
   border: none;
-  padding: 8px;
+  padding: 10px;
   cursor: pointer;
   border-radius: 50%;
-  transition: background-color 0.2s;
+  transition: all 0.2s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 40px;
+  height: 40px;
+  position: absolute;
+  left: 0;
+  z-index: 10;
 }
 
 .back-btn:hover {
   background: rgba(0, 0, 0, 0.1);
+  transform: scale(1.05);
+}
+
+.back-btn:active {
+  transform: scale(0.95);
 }
 
 .back-icon {
-  font-size: 20px;
+  width: 20px;
+  height: 20px;
   color: var(--text-primary);
-  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.back-btn:hover .back-icon {
+  color: var(--primary-color);
 }
 
 .page-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin: 0;
   text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+}
+
+.add-account-btn {
+  position: absolute;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  z-index: 1;
 }
 
 .app-logo {
@@ -1366,34 +1397,6 @@ select:focus, input:focus, textarea:focus {
 }
 
 @media (max-width: 768px) {
-  .account-management-page {
-    padding: 16px;
-  }
-  
-  .fixed-header {
-    padding: 12px 16px;
-  }
-  
-  .page-header {
-    flex-direction: row;
-    gap: 12px;
-    align-items: center;
-  }
-  
-  .page-header h1 {
-    font-size: 20px;
-  }
-  
-  .btn-primary {
-    padding: 8px 12px;
-    font-size: 14px;
-    min-width: auto;
-  }
-  
-  .btn-primary .icon {
-    font-size: 16px;
-  }
-  
   .modal-content {
     width: 95%;
     margin: 20px;
@@ -1405,10 +1408,6 @@ select:focus, input:focus, textarea:focus {
   
   .form-actions {
     flex-direction: column;
-  }
-  
-  .btn-primary, .btn-secondary {
-    width: 100%;
   }
   
   .accounts-summary {
