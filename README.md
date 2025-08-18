@@ -1,261 +1,218 @@
-# Glestrex - 个人财务管理应用
+# Glestrex
 
-一个现代化的个人财务管理应用，基于 Vue 3 构建，提供直观的界面和强大的功能来帮助您管理个人财务。
+一个现代化的Vue.js移动端应用，支持Web和Android平台。
 
-## ✨ 主要功能
+## 功能特性
 
-### 📊 财务概览
-- **总余额显示**：实时显示所有账户的净资产总额
-- **今日收支**：当日收入、支出和净收支统计
-- **本月收支**：当月财务数据汇总
-- **多币种支持**：支持不同货币单位的账户管理
+### 核心功能
+- 🏠 **主页面** - 直观的用户界面和导航
+- 💰 **交易管理** - 完整的交易记录和管理功能
+- 👤 **账户管理** - 用户账户信息管理
+- ⚙️ **设置中心** - 个性化设置和配置选项
 
-### 💰 交易管理
-- **多种交易类型**：
-  - 收入记录
-  - 支出记录
-  - 账户间转账
-  - 借入/还款
-  - 余额调整
-- **智能分类**：预设收入和支出分类，支持自定义
-- **快速记账**：首页快捷操作，一键添加常用交易
-- **交易搜索**：按类型、分类、账户、日期等条件筛选
-- **批量操作**：支持导出和复制交易记录
+### 用户体验
+- 🎯 **新手引导** - 内置的用户引导系统，帮助新用户快速上手
+- 🌍 **多语言支持** - 支持中文简体和英文
+- 📱 **响应式设计** - 适配各种屏幕尺寸
+- 🎨 **现代化UI** - 简洁美观的用户界面
 
-### 🏦 账户管理
-- **多账户支持**：银行卡、支付宝、微信、现金等
-- **账户类型**：现金账户、虚拟账户、贷款账户
-- **余额追踪**：实时更新账户余额
-- **账户归档**：支持停用不常用的账户
+### 平台支持
+- 🌐 **Web应用** - 基于Vue.js的现代Web应用
+- 📱 **Android应用** - 原生Android应用支持
+- 🔄 **跨平台** - 一套代码，多平台运行
 
-### 📈 数据分析
-- **可视化图表**：使用 G2Plot 提供丰富的数据可视化
-  - 收支趋势图
-  - 分类支出饼图
-  - 账户余额分布
-  - 月度收支对比
-- **日历视图**：直观查看每日交易情况
-- **统计报表**：详细的财务数据分析
+## 技术栈
 
-### 🧮 内置计算器
-- **浮动计算器**：可拖拽的计算器窗口
-- **快捷键支持**：Alt + C 快速打开/关闭
-- **表单集成**：在金额输入时直接使用计算器
+### 前端技术
+- **Vue.js 3** - 渐进式JavaScript框架
+- **Vue Router** - 官方路由管理器
+- **Vite** - 现代化构建工具
+- **CSS3** - 现代样式设计
 
-### 🌍 国际化支持
-- **多语言**：支持中文和英文
-- **本地化**：日期、货币格式本地化显示
+### 移动端技术
+- **Capacitor** - 跨平台移动应用开发框架
+- **Android SDK** - Android原生开发支持
+- **Cordova插件** - 丰富的移动端功能插件
 
-### 🎨 主题系统
-- **多主题模式**：浅色、深色、跟随系统
-- **响应式设计**：适配桌面和移动设备
-- **现代化UI**：简洁美观的用户界面
+### 开发工具
+- **ESLint** - 代码质量检查
+- **Prettier** - 代码格式化
+- **Git** - 版本控制
 
-## 🛠️ 技术栈
-
-### 前端框架
-- **Vue 3** - 渐进式 JavaScript 框架
-- **Vue Router 4** - 官方路由管理器
-- **Pinia** - 现代化状态管理
-
-### UI 和样式
-- **CSS3** - 现代化样式设计
-- **响应式布局** - 适配多种设备尺寸
-- **主题系统** - 支持明暗主题切换
-
-### 数据可视化
-- **@antv/g2plot** - 专业的统计图表库
-
-### 国际化
-- **Vue I18n** - Vue.js 国际化插件
-
-### 构建工具
-- **Vite** - 下一代前端构建工具
-- **@vitejs/plugin-vue** - Vue 单文件组件支持
-
-### 数据存储
-- **IndexedDB** - 浏览器本地数据库
-- **LocalStorage** - 用户偏好设置存储
-
-## 📁 项目结构
+## 项目结构
 
 ```
 glestrex/
-├── public/                 # 静态资源
-├── src/
-│   ├── components/         # 可复用组件
-│   │   ├── BaseButton.vue     # 基础按钮组件
-│   │   ├── Calculator.vue     # 计算器组件
-│   │   ├── FormInput.vue      # 表单输入组件
-│   │   ├── FormSelect.vue     # 下拉选择组件
-│   │   ├── FormTextarea.vue   # 文本域组件
-│   │   ├── FormInputWithCalculator.vue  # 带计算器的输入组件
-│   │   └── Tabbar.vue         # 底部导航栏
-│   ├── views/              # 页面组件
-│   │   ├── Home.vue           # 首页
-│   │   ├── Transactions.vue   # 交易记录页
-│   │   ├── Details.vue        # 数据详情页
-│   │   ├── DailyDetails.vue   # 日详情页
-│   │   ├── Profile.vue        # 个人资料页
-│   │   ├── AccountManagement.vue  # 账户管理页
-│   │   └── Settings.vue       # 设置页
-│   ├── stores/             # 状态管理
-│   │   ├── app.js             # 应用状态
-│   │   ├── transaction.js     # 交易状态
-│   │   ├── theme.js           # 主题状态
-│   │   └── language.js        # 语言状态
-│   ├── services/           # 业务服务
-│   │   ├── database.js        # 数据库服务
-│   │   └── transactionService.js  # 交易服务
-│   ├── locales/            # 国际化文件
+├── src/                          # 源代码目录
+│   ├── components/               # Vue组件
+│   │   └── OnboardingGuide.vue  # 新手引导组件
+│   ├── views/                   # 页面视图
+│   │   ├── Home.vue            # 主页
+│   │   ├── Transactions.vue    # 交易页面
+│   │   ├── AccountManagement.vue # 账户管理
+│   │   └── Settings.vue        # 设置页面
+│   ├── locales/                # 国际化文件
 │   │   ├── zh-CN.js           # 中文语言包
-│   │   ├── en-US.js           # 英文语言包
-│   │   └── index.js           # 国际化配置
-│   ├── router/             # 路由配置
-│   ├── utils/              # 工具函数
-│   ├── styles/             # 样式文件
-│   └── images/             # 图片资源
-├── docs/                   # 文档和示例数据
-│   └── mock-data.json         # 模拟数据示例
-├── package.json            # 项目依赖
-├── vite.config.js          # Vite 配置
-└── README.md               # 项目说明
+│   │   └── en-US.js           # 英文语言包
+│   └── App.vue                 # 根组件
+├── android/                    # Android项目
+│   ├── app/                   # Android应用
+│   │   ├── src/main/java/com/glassous/glestrex/
+│   │   │   └── MainActivity.java # Android主活动
+│   │   └── src/main/res/      # Android资源文件
+│   └── ...                    # 其他Android配置
+├── public/                    # 静态资源
+├── index.html                # 入口HTML文件
+├── package.json              # 项目依赖配置
+└── README.md                # 项目说明文档
 ```
 
-## 🗄️ 数据库结构
-
-应用使用 IndexedDB 作为本地数据库，包含以下数据表：
-
-### accounts (账户表)
-```javascript
-{
-  id: number,              // 主键，自增
-  name: string,            // 账户名称
-  type: string,            // 账户类型：'cash' | 'virtual' | 'loan'
-  unit: string,            // 货币单位：'CNY' | 'USD' | 'EUR' 等
-  precision: number,       // 小数位精度
-  includeInNetWorth: boolean,  // 是否计入净资产
-  archived: boolean,       // 是否已归档
-  balance: number,         // 当前余额
-  createdAt: string        // 创建时间
-}
-```
-
-### transactions (交易表)
-```javascript
-{
-  id: number,              // 主键，自增
-  date: string,            // 交易日期 (YYYY-MM-DD)
-  type: string,            // 交易类型：'income' | 'expense' | 'transfer' | 'borrow' | 'repay' | 'adjust'
-  accountId: number,       // 主账户ID
-  peerAccountId: number,   // 对方账户ID（转账时使用）
-  toAccountId: number,     // 目标账户ID（转账时使用）
-  categoryId: number,      // 分类ID
-  amount: number,          // 交易金额
-  description: string,     // 交易描述
-  createdAt: string,       // 创建时间
-  updatedAt: string        // 更新时间
-}
-```
-
-### categories (分类表)
-```javascript
-{
-  id: number,              // 主键，自增
-  name: string,            // 分类名称
-  type: string,            // 分类类型：'income' | 'expense'
-  icon: string             // 分类图标（emoji）
-}
-```
-
-## 🚀 快速开始
+## 快速开始
 
 ### 环境要求
-- Node.js 16.0 或更高版本
-- npm 或 yarn 包管理器
+- Node.js >= 16.0.0
+- npm >= 8.0.0
+- Android Studio (用于Android开发)
+- Java JDK >= 11 (用于Android构建)
 
 ### 安装依赖
+
 ```bash
+# 克隆项目
+git clone <repository-url>
+cd glestrex
+
+# 安装依赖
 npm install
 ```
 
 ### 开发模式
+
 ```bash
+# 启动开发服务器
 npm run dev
-```
-应用将在 `http://localhost:5173` 启动
 
-### 构建生产版本
+# 应用将在 http://localhost:5173 运行
+```
+
+### 构建项目
+
 ```bash
+# 构建Web版本
 npm run build
-```
 
-### 预览生产版本
-```bash
+# 预览构建结果
 npm run preview
 ```
 
-## 📱 使用指南
+### Android开发
 
-### 初次使用
-1. **创建账户**：在个人页面添加您的银行卡、支付宝等账户
-2. **设置分类**：系统已预设常用分类，您也可以自定义
-3. **开始记账**：在首页使用快捷操作或在交易页面详细记录
+```bash
+# 同步Android项目
+npx cap sync android
 
-### 快捷操作
-- **Alt + C**：打开/关闭计算器
-- **首页快捷按钮**：快速添加收入、支出、转账
-- **表单中的计算器图标**：在金额输入时使用计算器
+# 在Android Studio中打开项目
+npx cap open android
 
-### 数据管理
-- **导出数据**：在交易页面可以下载所有交易记录
-- **数据备份**：定期导出数据作为备份
-- **数据恢复**：可以通过导入功能恢复数据
+# 或直接运行Android应用
+npx cap run android
+```
 
-## 🔧 配置说明
+## 新手引导
 
-### 主题配置
-- 支持浅色、深色、跟随系统三种模式
-- 主题设置会自动保存到本地存储
+应用内置了完整的新手引导系统：
 
-### 语言配置
-- 支持中文（zh-CN）和英文（en-US）
-- 可在设置页面切换语言
+1. **欢迎页面** - 介绍应用主要功能
+2. **功能导览** - 逐步介绍各个功能模块
+3. **操作指导** - 手把手教学常用操作
+4. **设置向导** - 帮助用户完成初始设置
 
-### 数据精度
-- 支持不同货币的小数位精度设置
-- 默认人民币保留2位小数
+新用户首次打开应用时会自动触发引导流程，也可以在设置中重新查看。
 
-## 🤝 贡献指南
+## 多语言支持
 
-欢迎提交 Issue 和 Pull Request 来改进这个项目！
+应用支持以下语言：
+- 🇨🇳 中文简体 (zh-CN)
+- 🇺🇸 English (en-US)
 
-### 开发规范
-- 使用 Vue 3 Composition API
-- 遵循 ESLint 代码规范
-- 组件命名使用 PascalCase
-- 文件命名使用 kebab-case
+语言切换可在设置页面进行，系统会自动保存用户的语言偏好。
 
-### 提交规范
-- feat: 新功能
-- fix: 修复bug
-- docs: 文档更新
-- style: 代码格式调整
-- refactor: 代码重构
-- test: 测试相关
-- chore: 构建过程或辅助工具的变动
+## 开发指南
 
-## 📄 许可证
+### 添加新页面
+
+1. 在 `src/views/` 目录下创建新的Vue组件
+2. 在路由配置中添加对应路由
+3. 更新导航菜单（如需要）
+
+### 添加新语言
+
+1. 在 `src/locales/` 目录下创建新的语言文件
+2. 按照现有格式添加翻译内容
+3. 在语言配置中注册新语言
+
+### 自定义主题
+
+应用支持主题自定义，可以通过修改CSS变量来调整：
+- 主色调
+- 辅助色
+- 字体样式
+- 间距规范
+
+## 部署
+
+### Web部署
+
+```bash
+# 构建生产版本
+npm run build
+
+# 将 dist/ 目录部署到Web服务器
+```
+
+### Android发布
+
+1. 在Android Studio中打开项目
+2. 配置签名密钥
+3. 构建发布版APK或AAB
+4. 发布到Google Play Store或其他应用商店
+
+## 贡献指南
+
+欢迎贡献代码！请遵循以下步骤：
+
+1. Fork本项目
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 创建Pull Request
+
+## 许可证
 
 本项目采用 MIT 许可证 - 查看 [LICENSE](LICENSE) 文件了解详情。
 
-## 🙏 致谢
+## 联系方式
 
-- [Vue.js](https://vuejs.org/) - 渐进式 JavaScript 框架
-- [Vite](https://vitejs.dev/) - 下一代前端构建工具
-- [AntV G2Plot](https://g2plot.antv.vision/) - 专业的统计图表库
-- [Pinia](https://pinia.vuejs.org/) - Vue 状态管理库
+如有问题或建议，请通过以下方式联系：
+
+- 提交Issue: [GitHub Issues](https://github.com/your-username/glestrex/issues)
+- 邮箱: yongyanye614@gmail.com
+
+## 更新日志
+
+### v2.0.0 (当前版本)
+- ✨ 新增新手引导系统
+- 📱 添加Android平台支持
+- 🌍 实现多语言国际化
+- 🎨 优化用户界面设计
+- ⚡ 提升应用性能
+
+### v1.0.0
+- 🎉 初始版本发布
+- 🏠 基础页面功能
+- 💰 交易管理功能
+- 👤 账户管理功能
 
 ---
 
-**Glestrex** - 让财务管理变得简单而高效！ 💰✨
+**Glestrex** - 让财务管理更简单 💫
