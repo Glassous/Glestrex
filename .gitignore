@@ -82,6 +82,9 @@ jspm_packages/
 # Yarn Integrity file
 .yarn-integrity
 
+# CodeBuddy files
+.codebuddy/
+
 # Capacitor
 .capacitor/
 capacitor.config.json.bak
